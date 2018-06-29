@@ -51,6 +51,13 @@ class StoredEvent extends Model
         $query->where('id', '>', $storedEventId);
     }
 
+    public function scopeUntil(Builder $query, int $storedEventId = null)
+    {
+      if ( $storedEventId !== null ) {
+        $query->where('id', '>', $storedEventId);
+      }
+    }
+
     public function getMetaDataAttribute(): SchemalessAttributes
     {
         return SchemalessAttributes::createForModel($this, 'meta_data');
