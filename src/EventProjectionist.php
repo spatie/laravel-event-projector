@@ -199,7 +199,7 @@ class EventProjectionist
         return true;
     }
 
-    public function replayEvents(Collection $projectors, int $afterStoredEventId = 0, callable $onEventReplayed = null)
+    public function replayEvents(Collection $projectors, int $afterStoredEventId = 0, int $untilStoredEventId = null, callable $onEventReplayed = null)
     {
         $this->isReplayingEvents = true;
 
@@ -211,6 +211,7 @@ class EventProjectionist
 
         StoredEvent::query()
             ->after($afterStoredEventId ?? 0)
+            ->until($untilStoredEventId)
             ->chunk($this->config['replay_chunk_size'], function (Collection $storedEvents) use ($projectors, $onEventReplayed) {
                 $storedEvents->each(function (StoredEvent $storedEvent) use ($projectors, $onEventReplayed) {
                     $this->callEventHandlers($projectors, $storedEvent);
