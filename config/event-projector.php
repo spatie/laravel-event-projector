@@ -25,7 +25,7 @@ return [
      * the right order. Here you can set of the name of the queue. In production
      * environments you must use a real queue and not the sync driver.
      */
-    'queue' => env('EVENT_PROJECTOR_QUEUE_DRIVER', 'sync'),
+    'queue' => env('EVENT_PROJECTOR_QUEUE', 'default'),
 
     /*
      * When a projector or reactor throws an exception the event projectionist can catch it
