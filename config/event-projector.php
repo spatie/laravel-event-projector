@@ -55,6 +55,11 @@ return [
     'event_serializer' => \Spatie\EventProjector\EventSerializers\JsonEventSerializer::class,
 
     /*
+     * This class is responsible for handling the stored event.
+     */
+    'handle_event_job' => \Spatie\EventProjector\HandleStoredEventJob::class,
+
+    /*
      * When replaying events potentially a lot of events will have to be retrieved.
      * In order to avoid memory problems events will be retrieved in
      * a chuncked way. You can specify the chunk size here.

@@ -107,7 +107,9 @@ class Projectionist
             $tags = $event->tags();
         }
 
-        dispatch(new HandleStoredEventJob($storedEvent, $tags ?? []))
+        $handleStoredEventJob = $this->config['handle_event_job'];
+
+        dispatch(new $handleStoredEventJob($storedEvent, $tags ?? []))
             ->onQueue($this->config['queue']);
     }
 

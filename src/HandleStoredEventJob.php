@@ -11,7 +11,7 @@ use Spatie\EventProjector\Models\StoredEvent;
 
 class HandleStoredEventJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, HandlesStoredEvent;
 
     /** @var \Spatie\EventProjector\Models\StoredEvent */
     public $storedEvent;
@@ -23,21 +23,5 @@ class HandleStoredEventJob implements ShouldQueue
     {
         $this->storedEvent = $storedEvent;
         $this->tags = $tags;
-    }
-
-    public function handle(Projectionist $projectionist)
-    {
-        $projectionist->handle($this->storedEvent);
-    }
-
-    public function tags(): array
-    {
-        if (empty($this->tags)) {
-            return [
-                $this->storedEvent['event_class'],
-            ];
-        }
-
-        return $this->tags;
     }
 }
