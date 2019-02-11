@@ -50,11 +50,10 @@ trait ProjectsEvents
 
             foreach ($streams as $streamName => $streamValue) {
                 $streamFullName = "{$streamName}-{$streamValue}";
-                $whereJsonClause = str_replace('.', '->', $streamName);
 
                 $lastStoredEvent = $this->getStoredEventClass()::query()
                     ->whereIn('event_class', $this->handles())
-                    ->where("event_properties->{$whereJsonClause}", $streamValue)
+                    ->whereRaw("JSON_EXTRACT(`event_properties`, '$.{$streamName}') = ?", [$streamValue])
                     ->orderBy('id', 'desc')
                     ->first();
 
@@ -110,12 +109,11 @@ trait ProjectsEvents
 
         foreach ($streams as $streamName => $streamValue) {
             $streamFullName = "{$streamName}-{$streamValue}";
-            $whereJsonClause = str_replace('.', '->', $streamName);
 
             $lastStoredEvent = $this->getStoredEventClass()::query()
                 ->whereIn('event_class', $this->handles())
                 ->where('id', '<', $storedEvent->id)
-                ->where("event_properties->{$whereJsonClause}", $streamValue)
+                ->whereRaw("JSON_EXTRACT(`event_properties`, '$.{$streamName}') = ?", [$streamValue])
                 ->orderBy('id', 'desc')
                 ->first();
 
