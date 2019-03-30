@@ -75,7 +75,6 @@ class EventProjectorServiceProvider extends ServiceProvider
 
     protected function bindCommands()
     {
-        $this->app->bind('command.event-projector:list', ListCommand::class);
         $this->app->bind('command.event-projector:reset', ResetCommand::class);
         $this->app->bind('command.event-projector:rebuild', RebuildCommand::class);
         $this->app->bind('command.event-projector:replay', ReplayCommand::class);
