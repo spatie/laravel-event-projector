@@ -7,7 +7,7 @@ use Spatie\EventProjector\Projectors\ProjectsEvents;
 use Spatie\EventProjector\Tests\TestClasses\Events\MoneyAdded;
 use Spatie\EventProjector\Tests\TestClasses\Events\MoneySubtracted;
 
-class ProjectorWithAssociativeAndNonAssociativeHandleEvents implements Projector
+final class ProjectorWithAssociativeAndNonAssociativeHandleEvents implements Projector
 {
     use ProjectsEvents;
 

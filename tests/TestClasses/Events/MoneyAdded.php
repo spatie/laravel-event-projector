@@ -6,7 +6,7 @@ use Illuminate\Queue\SerializesModels;
 use Spatie\EventProjector\DomainEvent;
 use Spatie\EventProjector\Tests\TestClasses\Models\Account;
 
-class MoneyAdded implements DomainEvent
+final class MoneyAdded implements DomainEvent
 {
     use SerializesModels;
 

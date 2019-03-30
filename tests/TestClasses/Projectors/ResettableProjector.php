@@ -6,7 +6,7 @@ use Spatie\EventProjector\Projectors\Projector;
 use Spatie\EventProjector\Projectors\ProjectsEvents;
 use Spatie\EventProjector\Tests\TestClasses\Events\MoneyAdded;
 
-class ResettableProjector implements Projector
+final class ResettableProjector implements Projector
 {
     use ProjectsEvents;
 

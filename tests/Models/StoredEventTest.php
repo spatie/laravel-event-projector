@@ -10,7 +10,7 @@ use Spatie\EventProjector\Tests\TestClasses\Models\Account;
 use Spatie\EventProjector\Tests\TestClasses\Events\MoneyAdded;
 use Spatie\EventProjector\Tests\TestClasses\Projectors\BalanceProjector;
 
-class StoredEventTest extends TestCase
+final class StoredEventTest extends TestCase
 {
     /** @var \Spatie\EventProjector\Tests\TestClasses\Models\Account */
     protected $account;

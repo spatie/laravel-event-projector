@@ -7,7 +7,7 @@ use Spatie\EventProjector\Projectors\ProjectsEvents;
 use Spatie\EventProjector\Tests\TestClasses\Models\Account;
 use Spatie\EventProjector\Tests\TestClasses\Events\MoneyAdded;
 
-class ProjectorThatUsesStreamDefinedByString implements Projector
+final class ProjectorThatUsesStreamDefinedByString implements Projector
 {
     use ProjectsEvents;
 

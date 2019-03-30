@@ -18,7 +18,7 @@ use Spatie\EventProjector\Tests\TestClasses\Projectors\QueuedProjector;
 use Spatie\EventProjector\Tests\TestClasses\Projectors\BalanceProjector;
 use Spatie\EventProjector\Tests\TestClasses\Projectors\ProjectorThatInvokesAnObject;
 
-class EventSubscriberTest extends TestCase
+final class EventSubscriberTest extends TestCase
 {
     /** @var \Spatie\EventProjector\Tests\TestClasses\Models\Account */
     protected $account;

@@ -7,7 +7,7 @@ use Spatie\EventProjector\Projectors\Projector;
 use Spatie\EventProjector\Projectors\ProjectsEvents;
 use Spatie\EventProjector\Tests\TestClasses\Events\MoneyAdded;
 
-class ProjectorThatWritesMetaData implements Projector
+final class ProjectorThatWritesMetaData implements Projector
 {
     use ProjectsEvents;
 

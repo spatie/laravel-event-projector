@@ -8,7 +8,7 @@ use Spatie\EventProjector\EventHandlers\HandlesEvents;
 use Spatie\EventProjector\Tests\TestClasses\Events\MoneySubtracted;
 use Spatie\EventProjector\Tests\TestClasses\Mailables\AccountBroke;
 
-class BrokeReactor implements EventHandler
+final class BrokeReactor implements EventHandler
 {
     use HandlesEvents;
 

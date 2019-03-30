@@ -8,7 +8,7 @@ use Spatie\EventProjector\Tests\TestClasses\Models\Account;
 use Spatie\EventProjector\Tests\TestClasses\Events\MoneyAdded;
 use Spatie\EventProjector\Tests\TestClasses\Events\EventWithoutSerializedModels;
 
-class EventSerializerTest extends TestCase
+final class EventSerializerTest extends TestCase
 {
     /** @var \Spatie\EventProjector\EventSerializers\EventSerializer */
     protected $eventSerializer;

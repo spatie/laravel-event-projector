@@ -20,7 +20,7 @@ use Spatie\EventProjector\Tests\TestClasses\Projectors\MoneyAddedCountProjector;
 use Spatie\EventProjector\Tests\TestClasses\Projectors\ProjectorThatThrowsAnException;
 use Spatie\EventProjector\Tests\TestClasses\Projectors\InvalidProjectorThatDoesNotHaveTheRightEventHandlingMethod;
 
-class ProjectionistTest extends TestCase
+final class ProjectionistTest extends TestCase
 {
     /** @var \Spatie\EventProjector\Tests\TestClasses\Models\Account */
     protected $account;

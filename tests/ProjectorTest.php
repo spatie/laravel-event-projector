@@ -14,7 +14,7 @@ use Spatie\EventProjector\Tests\TestClasses\Projectors\ResettableProjector;
 use Spatie\EventProjector\Tests\TestClasses\Projectors\ProjectorThatWritesMetaData;
 use Spatie\EventProjector\Tests\TestClasses\Projectors\ProjectorWithAssociativeAndNonAssociativeHandleEvents;
 
-class ProjectorTest extends TestCase
+final class ProjectorTest extends TestCase
 {
     /** @test */
     public function it_can_reach_the_stored_event_and_write_meta_data_to_it()

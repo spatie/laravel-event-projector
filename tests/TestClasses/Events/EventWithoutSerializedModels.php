@@ -4,7 +4,7 @@ namespace Spatie\EventProjector\Tests\TestClasses\Events;
 
 use Spatie\EventProjector\DomainEvent;
 
-class EventWithoutSerializedModels implements DomainEvent
+final class EventWithoutSerializedModels implements DomainEvent
 {
     /** @var string */
     public $value;
