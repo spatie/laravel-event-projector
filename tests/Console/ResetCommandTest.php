@@ -15,15 +15,10 @@ class ResetCommandTest extends TestCase
     {
         Projectionist::addProjector(ResettableProjector::class);
 
-        ProjectorStatus::getForProjector(new ResettableProjector());
-        $this->assertCount(1, ProjectorStatus::get());
-
         Artisan::call('event-projector:reset', [
             'projector' => [ResettableProjector::class],
         ]);
 
         $this->assertSeeInConsoleOutput('Projector(s) reset');
-
-        $this->assertCount(0, ProjectorStatus::get());
     }
 }

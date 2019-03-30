@@ -59,23 +59,6 @@ class ProjectionistTest extends TestCase
     }
 
     /** @test */
-    public function it_will_update_the_projector_status()
-    {
-        $projector = new BalanceProjector();
-
-        Projectionist::addProjector($projector);
-
-        event(new MoneyAdded($this->account, 1234));
-        $this->assertTrue($projector->hasReceivedAllEvents());
-
-        event(new MoneyAdded($this->account, 1234));
-        $this->assertTrue($projector->hasReceivedAllEvents());
-
-        $status = ProjectorStatus::getForProjector($projector);
-        $this->assertEquals(2, $status->last_processed_event_id);
-    }
-
-    /** @test */
     public function it_will_not_register_the_same_projector_twice()
     {
         Projectionist::addProjector(BalanceProjector::class);
@@ -132,16 +115,6 @@ class ProjectionistTest extends TestCase
         $this->expectException(Exception::class);
 
         event(new MoneyAdded($this->account, 1000));
-    }
-
-    /** @test */
-    public function it_will_not_create_projector_statuses_for_projectors_that_are_not_interested_in_the_fired_events()
-    {
-        Projectionist::addProjector(UnrelatedProjector::class);
-
-        event(new MoneyAdded($this->account, 1000));
-
-        $this->assertCount(0, ProjectorStatus::get());
     }
 
     /** @test */

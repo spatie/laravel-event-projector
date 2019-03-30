@@ -34,8 +34,6 @@ class RebuildCommandTest extends TestCase
         ]);
 
         $this->assertSeeInConsoleOutput('Projector(s) rebuild!');
-
-        $this->assertCount(1, ProjectorStatus::get());
     }
 
     /** @test */
@@ -48,23 +46,5 @@ class RebuildCommandTest extends TestCase
         ]);
 
         $this->assertSeeInConsoleOutput('Projector(s) rebuild!');
-    }
-
-    /** @test */
-    public function a_projector_status_will_not_be_created_after_a_projector_is_rebuild_without_any_events()
-    {
-        Projectionist::addProjector(ResettableProjector::class);
-
-        ProjectorStatus::getForProjector(new ResettableProjector());
-
-        $this->assertCount(1, ProjectorStatus::get());
-
-        Artisan::call('event-projector:rebuild', [
-            'projector' => [ResettableProjector::class],
-        ]);
-
-        $this->assertSeeInConsoleOutput('Projector(s) rebuild!');
-
-        $this->assertCount(0, ProjectorStatus::get());
     }
 }

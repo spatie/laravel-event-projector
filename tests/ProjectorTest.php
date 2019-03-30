@@ -35,13 +35,7 @@ class ProjectorTest extends TestCase
 
         Projectionist::addProjector($projector);
 
-        ProjectorStatus::getForProjector($projector);
-
-        $this->assertCount(1, ProjectorStatus::get());
-
         $projector->reset();
-
-        $this->assertCount(0, ProjectorStatus::get());
     }
 
     /** @test */

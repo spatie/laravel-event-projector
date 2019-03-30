@@ -106,10 +106,7 @@ class EventSubscriberTest extends TestCase
 
         event(new MoneyAdded($this->account, 1000));
 
-        $status = ProjectorStatus::getForProjector($projector);
-
         $this->assertEquals(1000, $this->account->refresh()->amount);
-        $this->assertEquals(1, $status->last_processed_event_id);
     }
 
     /** @test */
@@ -126,8 +123,6 @@ class EventSubscriberTest extends TestCase
             return get_class($job->storedEvent->event) === MoneyAdded::class;
         });
 
-        $status = ProjectorStatus::getForProjector($projector);
-        $this->assertEquals(0, $status->last_processed_event_id);
         $this->assertEquals(0, $this->account->refresh()->amount);
     }
 }

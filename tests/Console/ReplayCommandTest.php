@@ -121,39 +121,6 @@ class ReplayCommandTest extends TestCase
     }
 
     /** @test */
-    public function it_can_only_replay_events_that_the_projector_did_not_handle_yet()
-    {
-        $projector = new BalanceProjector();
-
-        Projectionist::addProjector($projector);
-
-        Artisan::call('event-projector:replay', [
-            'projector' => [BalanceProjector::class],
-        ]);
-
-        $projectorStatus = ProjectorStatus::getForProjector($projector);
-
-        $projectorStatus = $projectorStatus->refresh();
-
-        $this->assertEquals(3, $projectorStatus->last_processed_event_id);
-
-        //sneakily change the last processed event
-        $projectorStatus->rememberLastProcessedEvent(StoredEvent::find(2));
-        $projectorStatus->has_received_all_events = false;
-        $projectorStatus->save();
-
-        $this->assertEquals(2, $projectorStatus->last_processed_event_id);
-        Artisan::call('event-projector:replay', [
-            'projector' => [BalanceProjector::class],
-        ]);
-
-        $this->assertSeeInConsoleOutput('Replaying events after stored event id 2...');
-
-        // 3000 from the first three events + 1000 from the replay
-        $this->assertEquals(4000, $this->account->fresh()->amount);
-    }
-
-    /** @test */
     public function it_will_call_certain_methods_on_the_projector_when_replaying_events()
     {
         $projector = Mockery::mock(BalanceProjector::class.'[onStartingEventReplay, onFinishedEventReplay]');
