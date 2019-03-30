@@ -52,7 +52,7 @@ final class ReplayCommandTest extends TestCase
         Event::assertNotDispatched(StartingEventReplay::class);
         Event::assertNotDispatched(FinishedEventReplay::class);
 
-        $this->artisan('event-projector:replay', ['projector' => [get_class($projector)]]);
+        $this->artisan('event-projector:replay '. get_class($projector));
 
         Event::assertDispatched(StartingEventReplay::class);
         Event::assertDispatched(FinishedEventReplay::class);

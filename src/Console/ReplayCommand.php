@@ -12,7 +12,7 @@ use Spatie\EventProjector\Console\Concerns\SelectsProjectors;
 final class ReplayCommand extends Command
 {
     protected $signature = 'event-projector:replay {projector?*}
-                            {--from= : Replay events starting from this event number}';
+                            {--from=0 : Replay events starting from this event number}';
 
     protected $description = 'Replay stored events';
 
@@ -41,7 +41,7 @@ final class ReplayCommand extends Command
             return;
         }
 
-        $this->replay($projectors);
+        $this->replay($projectors, $this->option('from'));
     }
 
     public function selectProjectors(array $projectorClassNames): ?Collection
