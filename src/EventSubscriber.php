@@ -24,7 +24,7 @@ class EventSubscriber
 
     public function handle(string $eventName, $payload)
     {
-        if (! $this->shouldBeStored($eventName)) {
+        if (! $this->isDomainEvent($eventName)) {
             return;
         }
 
@@ -36,7 +36,7 @@ class EventSubscriber
         $this->projectionist->storeEvent($event);
     }
 
-    protected function shouldBeStored($event): bool
+    protected function isDomainEvent($event): bool
     {
         if (! class_exists($event)) {
             return false;
