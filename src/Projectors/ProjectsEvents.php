@@ -29,8 +29,6 @@ trait ProjectsEvents
         }
 
         $this->resetState();
-
-        $this->getAllStatuses()->each->delete();
     }
 
     public function shouldBeCalledImmediately(): bool

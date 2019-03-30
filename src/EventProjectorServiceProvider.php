@@ -84,7 +84,6 @@ class EventProjectorServiceProvider extends ServiceProvider
         $this->app->bind('command.make:storable-event', MakeDomainEventCommand::class);
 
         $this->commands([
-            'command.event-projector:list',
             'command.event-projector:reset',
             'command.event-projector:rebuild',
             'command.event-projector:replay',
