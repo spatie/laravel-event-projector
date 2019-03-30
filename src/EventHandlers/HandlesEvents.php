@@ -14,7 +14,7 @@ trait HandlesEvents
         return $this->getEventHandlingMethods()->keys()->toArray();
     }
 
-    public function handle(StoredEvent $storedEvent): void
+    public function handle(StoredEvent $storedEvent)
     {
         $eventClass = $storedEvent->event_class;
 
@@ -26,7 +26,7 @@ trait HandlesEvents
         ];
 
         if (class_exists($handlerClassOrMethod)) {
-            app()->call([app($handlerClassOrMethod), '__invoke'], $parameters);
+            return app()->call([app($handlerClassOrMethod), '__invoke'], $parameters);
         }
 
         if (!method_exists($this, $handlerClassOrMethod)) {

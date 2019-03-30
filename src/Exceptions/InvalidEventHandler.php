@@ -7,7 +7,7 @@ use Spatie\EventProjector\DomainEvent;
 
 final class InvalidEventHandler extends Exception
 {
-    public static function eventHandlingMethodDoesNotExist(object $eventHandler, DomainEvent $event, string $methodName)
+    public static function eventHandlingMethodDoesNotExist(object $eventHandler, DomainEvent $event, string $methodName): self
     {
         $eventHandlerClass = get_class($eventHandler);
         $eventClass = get_class($event);

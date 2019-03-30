@@ -24,7 +24,7 @@ final class HandleDomainEventJob implements ShouldQueue
         $this->tags = $tags;
     }
 
-    public function handle(Projectionist $projectionist)
+    public function handle(Projectionist $projectionist): void
     {
         $projectionist->handle($this->storedEvent);
     }
@@ -40,7 +40,7 @@ final class HandleDomainEventJob implements ShouldQueue
         return $this->tags;
     }
 
-    public static function createForEvent(StoredEvent $event, array $tags)
+    public static function createForEvent(StoredEvent $event, array $tags): self
     {
         return new static($event, $tags);
     }

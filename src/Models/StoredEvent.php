@@ -54,7 +54,7 @@ class StoredEvent extends Model
         return $event;
     }
 
-    public function scopeStartingFrom(Builder $query, int $storedEventId)
+    public function scopeStartingFrom(Builder $query, int $storedEventId): void
     {
         $query->where('id', '>=', $storedEventId);
     }

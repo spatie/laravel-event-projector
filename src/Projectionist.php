@@ -97,7 +97,7 @@ final class Projectionist
         return $this->reactors->all();
     }
 
-    public function storeEvent(DomainEvent $event)
+    public function storeEvent(DomainEvent $event): void
     {
         $storedEvent = $this->getStoredEventClass()::createForEvent($event);
 
@@ -112,7 +112,7 @@ final class Projectionist
         dispatch($storedEventJob->onQueue($this->config['queue']));
     }
 
-    public function handle(StoredEvent $storedEvent)
+    public function handle(StoredEvent $storedEvent): void
     {
         $projectors = $this->projectors
             ->forEvent($storedEvent)
@@ -131,7 +131,7 @@ final class Projectionist
         );
     }
 
-    public function handleImmediately(StoredEvent $storedEvent)
+    public function handleImmediately(StoredEvent $storedEvent): void
     {
         $projectors = $this->projectors
             ->forEvent($storedEvent)
@@ -147,7 +147,7 @@ final class Projectionist
         return $this->isProjecting;
     }
 
-    private function applyStoredEventToProjectors(StoredEvent $storedEvent, Collection $projectors)
+    private function applyStoredEventToProjectors(StoredEvent $storedEvent, Collection $projectors): void
     {
         $this->isProjecting = true;
 
@@ -158,7 +158,7 @@ final class Projectionist
         $this->isProjecting = false;
     }
 
-    private function applyStoredEventToReactors(StoredEvent $storedEvent, Collection $reactors)
+    private function applyStoredEventToReactors(StoredEvent $storedEvent, Collection $reactors): void
     {
         foreach ($reactors as $reactor) {
             $this->callEventHandler($reactor, $storedEvent);
@@ -190,8 +190,11 @@ final class Projectionist
         return $this->isReplaying;
     }
 
-    public function replay(Collection $projectors, int $startingFromEventId = 0, callable $onEventReplayed = null)
-    {
+    public function replay(
+        Collection $projectors,
+        int $startingFromEventId = 0,
+        callable $onEventReplayed = null
+    ): void {
         $projectors = new EventHandlerCollection($projectors);
 
         $this->isReplaying = true;

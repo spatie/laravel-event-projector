@@ -20,7 +20,7 @@ final class EventHandlerCollection
         }
     }
 
-    public function add($eventHandler)
+    public function add($eventHandler): void
     {
         if (is_string($eventHandler)) {
             $eventHandler = app($eventHandler);

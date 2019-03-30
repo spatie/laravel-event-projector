@@ -17,12 +17,12 @@ final class EventSubscriber
         $this->config = $config;
     }
 
-    public function subscribe($events)
+    public function subscribe($events): void
     {
         $events->listen('*', static::class.'@handle');
     }
 
-    public function handle(string $eventName, $payload)
+    public function handle(string $eventName, $payload): void
     {
         if (! $this->isDomainEvent($eventName)) {
             return;
@@ -31,7 +31,7 @@ final class EventSubscriber
         $this->storeEvent($payload[0]);
     }
 
-    public function storeEvent(DomainEvent $event)
+    public function storeEvent(DomainEvent $event): void
     {
         $this->projectionist->storeEvent($event);
     }

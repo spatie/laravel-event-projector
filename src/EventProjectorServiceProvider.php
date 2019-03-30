@@ -15,7 +15,7 @@ use Spatie\EventProjector\Console\MakeDomainEventCommand;
 
 final class EventProjectorServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
@@ -38,7 +38,7 @@ final class EventProjectorServiceProvider extends ServiceProvider
         Event::subscribe(EventSubscriber::class);
     }
 
-    public function register()
+    public function register(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../config/event-projector.php', 'event-projector');
 
