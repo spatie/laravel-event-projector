@@ -162,6 +162,7 @@ class Projectionist
     protected function callEventHandler(EventHandler $eventHandler, StoredEvent $storedEvent): bool
     {
         try {
+
             $eventHandler->handle($storedEvent);
         } catch (Exception $exception) {
             if (! $this->config['catch_exceptions']) {

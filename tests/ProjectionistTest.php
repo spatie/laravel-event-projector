@@ -76,28 +76,6 @@ class ProjectionistTest extends TestCase
     }
 
     /** @test */
-    public function it_will_not_let_the_projector_handle_an_event_if_the_projector_hasnt_received_all_events()
-    {
-        $projector = new BalanceProjector();
-
-        Projectionist::addProjector($projector);
-
-        event(new MoneyAdded($this->account, 1000));
-
-        $this->assertTrue($projector->hasReceivedAllEvents());
-
-        $this->assertEquals(1000, $this->account->refresh()->amount);
-
-        // manually store a new event so projectors won't get called
-        StoredEvent::createForEvent(new MoneyAdded($this->account, 1000));
-
-        $this->assertFalse($projector->hasReceivedAllEvents());
-
-        event(new MoneyAdded($this->account, 1000));
-        $this->assertEquals(1000, $this->account->refresh()->amount);
-    }
-
-    /** @test */
     public function it_will_not_register_the_same_projector_twice()
     {
         Projectionist::addProjector(BalanceProjector::class);
@@ -142,9 +120,6 @@ class ProjectionistTest extends TestCase
 
         event(new MoneyAdded($this->account, 1000));
 
-        $this->assertEquals(0, ProjectorStatus::getForProjector($failingProjector)->last_processed_event_id);
-
-        $this->assertEquals(1, ProjectorStatus::getForProjector($workingProjector)->last_processed_event_id);
         $this->assertEquals(1000, $this->account->refresh()->amount);
     }
 
