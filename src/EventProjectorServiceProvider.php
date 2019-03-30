@@ -13,7 +13,7 @@ use Spatie\EventProjector\EventSerializers\EventSerializer;
 use Spatie\EventProjector\Console\Make\MakeProjectorCommand;
 use Spatie\EventProjector\Console\Make\MakeDomainEventCommand;
 
-class EventProjectorServiceProvider extends ServiceProvider
+final class EventProjectorServiceProvider extends ServiceProvider
 {
     public function boot()
     {

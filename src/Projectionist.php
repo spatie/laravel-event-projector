@@ -14,7 +14,7 @@ use Spatie\EventProjector\EventHandlers\EventHandlerCollection;
 use Spatie\EventProjector\Events\EventHandlerFailedHandlingEvent;
 use Spatie\EventProjector\Events\ProjectorDidNotHandlePriorEvents;
 
-class Projectionist
+final class Projectionist
 {
     /** @var array */
     protected $config;

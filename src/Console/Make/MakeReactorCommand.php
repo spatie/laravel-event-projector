@@ -4,7 +4,7 @@ namespace Spatie\EventProjector\Console\Make;
 
 use Illuminate\Console\GeneratorCommand;
 
-class MakeReactorCommand extends GeneratorCommand
+final class MakeReactorCommand extends GeneratorCommand
 {
     protected $name = 'make:reactor';
 

@@ -5,7 +5,7 @@ namespace Spatie\EventProjector\Events;
 use Spatie\EventProjector\Models\StoredEvent;
 use Spatie\EventProjector\Projectors\Projector;
 
-class ProjectorDidNotHandlePriorEvents
+final class ProjectorDidNotHandlePriorEvents
 {
     /** @var \Spatie\EventProjector\Projectors\Projector */
     public $projector;

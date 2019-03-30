@@ -5,7 +5,7 @@ namespace Spatie\EventProjector\Exceptions;
 use Exception;
 use Spatie\EventProjector\Projectors\Projector;
 
-class CouldNotResetProjector extends Exception
+final class CouldNotResetProjector extends Exception
 {
     public static function doesNotHaveResetStateMethod(Projector $projector)
     {

@@ -9,7 +9,7 @@ use Spatie\EventProjector\Projectionist;
 use Spatie\EventProjector\Console\Concerns\ReplaysEvents;
 use Spatie\EventProjector\Console\Concerns\SelectsProjectors;
 
-class ReplayCommand extends Command
+final class ReplayCommand extends Command
 {
     protected $signature = 'event-projector:replay {projector?*}
                             {--from= : Replay events starting from this event number}';

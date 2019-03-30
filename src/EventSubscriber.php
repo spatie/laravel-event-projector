@@ -2,7 +2,7 @@
 
 namespace Spatie\EventProjector;
 
-class EventSubscriber
+final class EventSubscriber
 {
     /** @var \Spatie\EventProjector\Projectionist */
     protected $projectionist;

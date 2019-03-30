@@ -5,7 +5,7 @@ namespace Spatie\EventProjector\Console\Make;
 use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Input\InputOption;
 
-class MakeProjectorCommand extends GeneratorCommand
+final class MakeProjectorCommand extends GeneratorCommand
 {
     protected $name = 'make:projector';
 

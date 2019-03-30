@@ -4,7 +4,7 @@ namespace Spatie\EventProjector\Console\Make;
 
 use Illuminate\Console\GeneratorCommand;
 
-class MakeDomainEventCommand extends GeneratorCommand
+final class MakeDomainEventCommand extends GeneratorCommand
 {
     protected $name = 'make:domain-event';
 

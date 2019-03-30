@@ -6,7 +6,7 @@ use Illuminate\Support\Collection;
 use Spatie\EventProjector\Models\StoredEvent;
 use Spatie\EventProjector\Exceptions\InvalidEventHandler;
 
-class EventHandlerCollection
+final class EventHandlerCollection
 {
     /** @var \Illuminate\Support\Collection */
     protected $eventHandlers;
