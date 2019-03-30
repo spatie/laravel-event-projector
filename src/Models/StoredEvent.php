@@ -6,7 +6,7 @@ use Exception;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Spatie\EventProjector\ShouldBeStored;
+use Spatie\EventProjector\DomainEvent;
 use Spatie\SchemalessAttributes\SchemalessAttributes;
 use Spatie\EventProjector\Exceptions\InvalidStoredEvent;
 use Spatie\EventProjector\EventSerializers\EventSerializer;
@@ -22,7 +22,7 @@ class StoredEvent extends Model
         'meta_data' => 'array',
     ];
 
-    public static function createForEvent(ShouldBeStored $event): StoredEvent
+    public static function createForEvent(DomainEvent $event): StoredEvent
     {
         $storedEvent = new static();
         $storedEvent->event_class = get_class($event);
@@ -40,7 +40,7 @@ class StoredEvent extends Model
         return static::query()->max('id') ?? 0;
     }
 
-    public function getEventAttribute(): ShouldBeStored
+    public function getEventAttribute(): DomainEvent
     {
         try {
             $event = app(EventSerializer::class)->deserialize(

@@ -2,7 +2,7 @@
 
 namespace Spatie\EventProjector\EventSerializers;
 
-use Spatie\EventProjector\ShouldBeStored;
+use Spatie\EventProjector\DomainEvent;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer as SymfonySerializer;
@@ -20,7 +20,7 @@ class JsonEventSerializer implements EventSerializer
         $this->serializer = new SymfonySerializer($normalizers, $encoders);
     }
 
-    public function serialize(ShouldBeStored $event): string
+    public function serialize(DomainEvent $event): string
     {
         /*
          * We call __sleep so `Illuminate\Queue\SerializesModels` will
@@ -35,7 +35,7 @@ class JsonEventSerializer implements EventSerializer
         return $json;
     }
 
-    public function deserialize(string $eventClass, string $json): ShouldBeStored
+    public function deserialize(string $eventClass, string $json): DomainEvent
     {
         $restoredEvent = $this->serializer->deserialize($json, $eventClass, 'json');
 

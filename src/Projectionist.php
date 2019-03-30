@@ -97,7 +97,7 @@ class Projectionist
         return $this->reactors->all();
     }
 
-    public function storeEvent(ShouldBeStored $event)
+    public function storeEvent(DomainEvent $event)
     {
         $storedEvent = $this->getStoredEventClass()::createForEvent($event);
 
