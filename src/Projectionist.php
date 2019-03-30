@@ -114,9 +114,15 @@ class Projectionist
 
     public function handle(StoredEvent $storedEvent)
     {
+        $projectors = $this->projectors
+            ->forEvent($storedEvent)
+            ->reject(function (Projector $projector) {
+                return $projector->shouldBeCalledImmediately();
+            });
+
         $this->applyStoredEventToProjectors(
             $storedEvent,
-            $this->projectors->forEvent($storedEvent)
+            $projectors
         );
 
         $this->applyStoredEventToReactors(
