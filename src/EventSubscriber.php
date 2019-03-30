@@ -5,10 +5,10 @@ namespace Spatie\EventProjector;
 final class EventSubscriber
 {
     /** @var \Spatie\EventProjector\Projectionist */
-    protected $projectionist;
+    private $projectionist;
 
     /** @var array */
-    protected $config;
+    private $config;
 
     public function __construct(Projectionist $projectionist, array $config = [])
     {
@@ -36,7 +36,7 @@ final class EventSubscriber
         $this->projectionist->storeEvent($event);
     }
 
-    protected function isDomainEvent($event): bool
+    private function isDomainEvent($event): bool
     {
         if (! class_exists($event)) {
             return false;

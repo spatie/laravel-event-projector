@@ -17,19 +17,19 @@ use Spatie\EventProjector\Events\ProjectorDidNotHandlePriorEvents;
 final class Projectionist
 {
     /** @var array */
-    protected $config;
+    private $config;
 
     /** @var \Spatie\EventProjector\EventHandlers\EventHandlerCollection */
-    protected $projectors;
+    private $projectors;
 
     /** @var \Spatie\EventProjector\EventHandlers\EventHandlerCollection */
-    protected $reactors;
+    private $reactors;
 
     /** @var bool */
-    protected $isProjecting = false;
+    private $isProjecting = false;
 
     /** @var bool */
-    protected $isReplaying = false;
+    private $isReplaying = false;
 
     public function __construct(array $config = [])
     {
@@ -147,7 +147,7 @@ final class Projectionist
         return $this->isProjecting;
     }
 
-    protected function applyStoredEventToProjectors(StoredEvent $storedEvent, Collection $projectors)
+    private function applyStoredEventToProjectors(StoredEvent $storedEvent, Collection $projectors)
     {
         $this->isProjecting = true;
 
@@ -158,14 +158,14 @@ final class Projectionist
         $this->isProjecting = false;
     }
 
-    protected function applyStoredEventToReactors(StoredEvent $storedEvent, Collection $reactors)
+    private function applyStoredEventToReactors(StoredEvent $storedEvent, Collection $reactors)
     {
         foreach ($reactors as $reactor) {
             $this->callEventHandler($reactor, $storedEvent);
         }
     }
 
-    protected function callEventHandler(EventHandler $eventHandler, StoredEvent $storedEvent): bool
+    private function callEventHandler(EventHandler $eventHandler, StoredEvent $storedEvent): bool
     {
         try {
 
@@ -230,12 +230,12 @@ final class Projectionist
         $projectors->call('onFinishedEventReplay');
     }
 
-    protected function getStoredEventClass(): string
+    private function getStoredEventClass(): string
     {
         return config('event-projector.stored_event_model');
     }
 
-    protected function getStoredEventJob(): string
+    private function getStoredEventJob(): string
     {
         return config('event-projector.stored_event_job');
     }

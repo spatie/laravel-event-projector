@@ -73,7 +73,7 @@ final class EventProjectorServiceProvider extends ServiceProvider
         $this->bindCommands();
     }
 
-    protected function bindCommands()
+    private function bindCommands()
     {
         $this->app->bind('command.event-projector:replay', ReplayCommand::class);
         $this->app->bind('command.make:projector', MakeProjectorCommand::class);

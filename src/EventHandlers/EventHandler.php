@@ -9,7 +9,7 @@ interface EventHandler
 {
     public function handles(): array;
 
-    public function handle(StoredEvent $event);
+    public function handle(StoredEvent $event): void;
 
-    public function handleException(Exception $exception);
+    public function handleException(Exception $exception): void;
 }

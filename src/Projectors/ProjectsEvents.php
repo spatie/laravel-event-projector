@@ -22,7 +22,7 @@ trait ProjectsEvents
         return get_class($this);
     }
 
-    public function reset()
+    public function reset(): void
     {
         if (! method_exists($this, 'resetState')) {
             throw CouldNotResetProjector::doesNotHaveResetStateMethod($this);

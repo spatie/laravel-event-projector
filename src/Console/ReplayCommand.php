@@ -31,7 +31,7 @@ class ReplayCommand extends Command
         $this->storedEventModelClass = $this->getStoredEventClass();
     }
 
-    public function handle()
+    public function handle(): void
     {
         $projectors = $this->selectProjectors($this->argument('projector'));
 
@@ -67,7 +67,7 @@ class ReplayCommand extends Command
             });
     }
 
-    public function replay(Collection $projectors, int $startingFrom)
+    public function replay(Collection $projectors, int $startingFrom): void
     {
         $replayCount = $this->getStoredEventClass()::startingFrom($startingFrom)->count();
 
@@ -92,14 +92,14 @@ class ReplayCommand extends Command
         $this->comment('All done!');
     }
 
-    protected function emptyLine(int $amount = 1)
+    private function emptyLine(int $amount = 1): void
     {
         foreach (range(1, $amount) as $i) {
             $this->line('');
         }
     }
 
-    protected function getStoredEventClass(): string
+    private function getStoredEventClass(): string
     {
         return config('event-projector.stored_event_model');
     }
