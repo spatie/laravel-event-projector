@@ -145,4 +145,41 @@ final class ProjectionistTest extends TestCase
             return $expected === $job->tags();
         });
     }
+
+    /** @test */
+    public function it_can_remove_all_event_handlers()
+    {
+        Projectionist::addProjector(MoneyAddedCountProjector::class);
+        Projectionist::addProjector(BalanceProjector::class);
+        Projectionist::addReactor(BrokeReactor::class);
+
+        $this->assertCount(2, Projectionist::getProjectors());
+        $this->assertCount(1, Projectionist::getReactors());
+
+
+        Projectionist::removeEventHandlers();
+
+        $this->assertCount(0, Projectionist::getProjectors());
+        $this->assertCount(0, Projectionist::getReactors());
+    }
+
+    /** @test */
+    public function it_can_remove_certain_event_handlers()
+    {
+        Projectionist::addProjector(MoneyAddedCountProjector::class);
+        Projectionist::addProjector(BalanceProjector::class);
+        Projectionist::addReactor(BrokeReactor::class);
+
+        $this->assertCount(2, Projectionist::getProjectors());
+        $this->assertCount(1, Projectionist::getReactors());
+
+        Projectionist::removeEventHandlers([MoneyAddedCountProjector::class, BrokeReactor::class]);
+
+        $this->assertCount(1, Projectionist::getProjectors());
+        $this->assertEquals(BalanceProjector::class, get_class(Projectionist::getProjectors()->first()));
+        $this->assertCount(0, Projectionist::getReactors());
+
+        Projectionist::removeEventHandlers(BalanceProjector::class);
+        $this->assertCount(0, Projectionist::getProjectors());
+    }
 }

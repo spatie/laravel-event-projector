@@ -26,13 +26,13 @@ final class EventHandlerCollection
             $eventHandler = app($eventHandler);
         }
 
-        if (! $eventHandler instanceof EventHandler) {
+        if (!$eventHandler instanceof EventHandler) {
             throw InvalidEventHandler::notAnEventHandler($eventHandler);
         }
 
         $className = get_class($eventHandler);
 
-        if (! $this->eventHandlers->has($className)) {
+        if (!$this->eventHandlers->has($className)) {
             $this->eventHandlers[$className] = $eventHandler;
         }
     }
@@ -57,6 +57,19 @@ final class EventHandlerCollection
             })
             ->each(function (EventHandler $eventHandler) use ($method) {
                 return app()->call([$eventHandler, $method]);
+            });
+    }
+
+    public function removeAll(): void
+    {
+        $this->eventHandlers = collect();
+    }
+
+    public function remove(array $eventHandlerClassNames): void
+    {
+        $this->eventHandlers = $this->eventHandlers
+            ->reject(function (EventHandler $eventHandler) use ($eventHandlerClassNames) {
+                return in_array(get_class($eventHandler), $eventHandlerClassNames);
             });
     }
 }

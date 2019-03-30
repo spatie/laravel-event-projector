@@ -3,6 +3,7 @@
 namespace Spatie\EventProjector;
 
 use Exception;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Spatie\EventProjector\Models\StoredEvent;
 use Spatie\EventProjector\Projectors\Projector;
@@ -51,6 +52,23 @@ final class Projectionist
         }
 
         $this->projectors->add($projector);
+
+        return $this;
+    }
+
+    public function removeEventHandlers($eventHandlers = null): Projectionist
+    {
+        if (is_null($eventHandlers)) {
+            $this->projectors->removeAll();
+
+            $this->reactors->removeAll();
+        }
+
+        $eventHandlers = Arr::wrap($eventHandlers);
+
+        $this->projectors->remove($eventHandlers);
+
+        $this->reactors->remove($eventHandlers);
 
         return $this;
     }
