@@ -190,18 +190,24 @@ class Projectionist
         return $this->isReplaying;
     }
 
-    public function replay(Collection $projectors, int $afterStoredEventId = 0, callable $onEventReplayed = null)
+    public function replay(Collection $projectors, int $startingFromEventId = 0, callable $onEventReplayed = null)
     {
-        $this->isReplaying = true;
+
 
         $projectors = new EventHandlerCollection($projectors);
+
+        $this->isReplaying = true;
+
+        if ($startingFromEventId === 0) {
+            $projectors->all()->each->reset();
+        }
 
         event(new StartingEventReplay($projectors->all()));
 
         $projectors->call('onStartingEventReplay');
 
         $this->getStoredEventClass()::query()
-            ->after($afterStoredEventId ?? 0)
+            ->startingFrom($startingFromEventId ?? 0)
             ->chunk($this->config['replay_chunk_size'], function (Collection $storedEvents) use ($projectors, $onEventReplayed) {
                 $storedEvents->each(function (StoredEvent $storedEvent) use ($projectors, $onEventReplayed) {
                     $this->applyStoredEventToProjectors(

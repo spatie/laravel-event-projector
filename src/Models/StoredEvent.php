@@ -54,9 +54,9 @@ class StoredEvent extends Model
         return $event;
     }
 
-    public function scopeAfter(Builder $query, int $storedEventId)
+    public function scopeStartingFrom(Builder $query, int $storedEventId)
     {
-        $query->where('id', '>', $storedEventId);
+        $query->where('id', '>=', $storedEventId);
     }
 
     public function getMetaDataAttribute(): SchemalessAttributes
