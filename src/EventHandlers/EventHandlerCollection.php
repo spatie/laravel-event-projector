@@ -9,7 +9,7 @@ use Spatie\EventProjector\Exceptions\InvalidEventHandler;
 final class EventHandlerCollection
 {
     /** @var \Illuminate\Support\Collection */
-    protected $eventHandlers;
+    private $eventHandlers;
 
     public function __construct($eventHandlers = [])
     {
