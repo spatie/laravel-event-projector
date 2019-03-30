@@ -43,7 +43,7 @@ final class ReplayCommandTest extends TestCase
     {
         Event::fake([FinishedEventReplay::class, StartingEventReplay::class]);
 
-        $projector = Mockery::mock(BalanceProjector::class.'[onMoneyAdded]');
+        $projector = Mockery::mock(BalanceProjector::class . '[onMoneyAdded]');
 
         $projector->shouldReceive('onMoneyAdded')->andReturnNull()->times(3);
 
@@ -52,7 +52,7 @@ final class ReplayCommandTest extends TestCase
         Event::assertNotDispatched(StartingEventReplay::class);
         Event::assertNotDispatched(FinishedEventReplay::class);
 
-        $this->artisan('event-projector:replay '. get_class($projector));
+        $this->artisan('event-projector:replay ' . get_class($projector));
 
         Event::assertDispatched(StartingEventReplay::class);
         Event::assertDispatched(FinishedEventReplay::class);
@@ -63,41 +63,10 @@ final class ReplayCommandTest extends TestCase
     {
         Projectionist::addProjector(BalanceProjector::class);
 
-        $command = Mockery::mock(ReplayCommand::class.'[confirm]', [
-            app(BoundProjectionist::class),
-            config('event-projector.stored_event_model'),
-        ]);
-
-        $command->shouldReceive('confirm')->andReturn(false);
-
-        $this->app->bind('command.event-projector:replay', function () use ($command) {
-            return $command;
-        });
-
-        Artisan::call('event-projector:replay');
-
-        $this->assertSeeInConsoleOutput('No events replayed!');
-    }
-
-    /** @test */
-    public function it_will_run_events_agains_all_projectors_when_no_projectors_are_given_and_confirming()
-    {
-        Projectionist::addProjector(BalanceProjector::class);
-
-        $command = Mockery::mock(ReplayCommand::class.'[confirm]', [
-            app(BoundProjectionist::class),
-            config('event-projector.stored_event_model'),
-        ]);
-
-        $command->shouldReceive('confirm')->andReturn(true);
-
-        $this->app->bind('command.event-projector:replay', function () use ($command) {
-            return $command;
-        });
-
-        Artisan::call('event-projector:replay');
-
-        $this->assertSeeInConsoleOutput('Replaying');
+        $this->artisan('event-projector:replay')
+            ->expectsQuestion('Are you sure you want to replay events to all projectors?', 'Y')
+            ->expectsOutput("Replaying 3 events...")
+            ->assertExitCode(0);
     }
 
     /** @test */
@@ -123,7 +92,7 @@ final class ReplayCommandTest extends TestCase
     /** @test */
     public function it_will_call_certain_methods_on_the_projector_when_replaying_events()
     {
-        $projector = Mockery::mock(BalanceProjector::class.'[onStartingEventReplay, onFinishedEventReplay]');
+        $projector = Mockery::mock(BalanceProjector::class . '[onStartingEventReplay, onFinishedEventReplay]');
 
         Projectionist::addProjector($projector);
 
