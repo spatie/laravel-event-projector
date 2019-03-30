@@ -146,23 +146,7 @@ class Projectionist
         $this->isProjecting = true;
 
         foreach ($projectors as $projector) {
-            if ($projector->hasAlreadyReceivedEvent($storedEvent)) {
-                continue;
-            }
-
-            if (! $projector->hasReceivedAllPriorEvents($storedEvent)) {
-                event(new ProjectorDidNotHandlePriorEvents($projector, $storedEvent));
-
-                $projector->markAsNotUpToDate($storedEvent);
-
-                continue;
-            }
-
-            if (! $this->callEventHandler($projector, $storedEvent)) {
-                continue;
-            }
-
-            $projector->rememberReceivedEvent($storedEvent);
+            $this->callEventHandler($projector, $storedEvent);
         }
 
         $this->isProjecting = false;

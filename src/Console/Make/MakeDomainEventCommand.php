@@ -4,13 +4,13 @@ namespace Spatie\EventProjector\Console\Make;
 
 use Illuminate\Console\GeneratorCommand;
 
-class MakeStorableEventCommand extends GeneratorCommand
+class MakeDomainEventCommand extends GeneratorCommand
 {
-    protected $name = 'make:storable-event';
+    protected $name = 'make:domain-event';
 
-    protected $description = 'Create a storable event';
+    protected $description = 'Create a domain event';
 
-    protected $type = 'Storable event';
+    protected $type = 'Domain event';
 
     protected function getStub()
     {

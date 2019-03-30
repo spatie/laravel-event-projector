@@ -11,7 +11,7 @@ use Spatie\EventProjector\Console\RebuildCommand;
 use Spatie\EventProjector\Console\Make\MakeReactorCommand;
 use Spatie\EventProjector\EventSerializers\EventSerializer;
 use Spatie\EventProjector\Console\Make\MakeProjectorCommand;
-use Spatie\EventProjector\Console\Make\MakeStorableEventCommand;
+use Spatie\EventProjector\Console\Make\MakeDomainEventCommand;
 
 class EventProjectorServiceProvider extends ServiceProvider
 {
@@ -82,7 +82,7 @@ class EventProjectorServiceProvider extends ServiceProvider
 
         $this->app->bind('command.make:projector', MakeProjectorCommand::class);
         $this->app->bind('command.make:reactor', MakeReactorCommand::class);
-        $this->app->bind('command.make:storable-event', MakeStorableEventCommand::class);
+        $this->app->bind('command.make:storable-event', MakeDomainEventCommand::class);
 
         $this->commands([
             'command.event-projector:list',
