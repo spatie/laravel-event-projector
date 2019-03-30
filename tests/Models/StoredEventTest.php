@@ -25,11 +25,11 @@ final class StoredEventTest extends TestCase
     }
 
     /** @test */
-    public function it_has_a_scope_to_get_all_events_after_a_given_id()
+    public function it_has_a_scope_to_get_all_events_starting_from_given_id()
     {
         $this->fireEvents(4);
 
-        $this->assertEquals([3, 4], StoredEvent::after(2)->pluck('id')->toArray());
+        $this->assertEquals([3, 4], StoredEvent::startingFrom(3)->pluck('id')->toArray());
     }
 
     /** @test */

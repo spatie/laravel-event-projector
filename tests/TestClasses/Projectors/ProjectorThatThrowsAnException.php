@@ -6,7 +6,7 @@ use Exception;
 use Spatie\EventProjector\Projectors\QueuedProjector;
 use Spatie\EventProjector\Tests\TestClasses\Events\MoneyAdded;
 
-final class ProjectorThatThrowsAnException extends BalanceProjector implements QueuedProjector
+class ProjectorThatThrowsAnException extends BalanceProjector implements QueuedProjector
 {
     public function onMoneyAdded(MoneyAdded $event)
     {

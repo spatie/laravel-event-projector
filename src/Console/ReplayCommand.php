@@ -9,7 +9,7 @@ use Spatie\EventProjector\Projectionist;
 use Spatie\EventProjector\Console\Concerns\ReplaysEvents;
 use Spatie\EventProjector\Console\Concerns\SelectsProjectors;
 
-final class ReplayCommand extends Command
+class ReplayCommand extends Command
 {
     protected $signature = 'event-projector:replay {projector?*}
                             {--from=0 : Replay events starting from this event number}';
@@ -51,7 +51,7 @@ final class ReplayCommand extends Command
                 return null;
             }
 
-            return Projectionist::getProjectors();
+            return $this->projectionist->getProjectors();
         }
 
         return collect($projectorClassNames)
