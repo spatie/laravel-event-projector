@@ -192,14 +192,16 @@ final class Projectionist
 
     public function replay(Collection $projectors, int $startingFromEventId = 0, callable $onEventReplayed = null)
     {
-
-
         $projectors = new EventHandlerCollection($projectors);
 
         $this->isReplaying = true;
 
         if ($startingFromEventId === 0) {
-            $projectors->all()->each->reset();
+            $projectors->all()->each(function(Projector $projector) {
+                if (method_exists($projector, 'resetState')) {
+                    $projector->resetState();
+                }
+            });
         }
 
         event(new StartingEventReplay($projectors->all()));
