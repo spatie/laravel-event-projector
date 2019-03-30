@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\EventProjector\Console\Make;
+namespace Spatie\EventProjector\Console;
 
 use Illuminate\Console\GeneratorCommand;
 

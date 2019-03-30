@@ -8,10 +8,10 @@ use Spatie\EventProjector\Console\ListCommand;
 use Spatie\EventProjector\Console\ResetCommand;
 use Spatie\EventProjector\Console\ReplayCommand;
 use Spatie\EventProjector\Console\RebuildCommand;
-use Spatie\EventProjector\Console\Make\MakeReactorCommand;
+use Spatie\EventProjector\Console\MakeReactorCommand;
 use Spatie\EventProjector\EventSerializers\EventSerializer;
-use Spatie\EventProjector\Console\Make\MakeProjectorCommand;
-use Spatie\EventProjector\Console\Make\MakeDomainEventCommand;
+use Spatie\EventProjector\Console\MakeProjectorCommand;
+use Spatie\EventProjector\Console\MakeDomainEventCommand;
 
 final class EventProjectorServiceProvider extends ServiceProvider
 {
