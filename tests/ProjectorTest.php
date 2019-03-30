@@ -31,11 +31,18 @@ final class ProjectorTest extends TestCase
     /** @test */
     public function it_can_be_reset()
     {
+        Account::create();
+
         $projector = new ResettableProjector();
 
         Projectionist::addProjector($projector);
 
+        $this->assertCount(1, Account::all());
+
         $projector->reset();
+
+        $this->assertCount(0, Account::all());
+
     }
 
     /** @test */
