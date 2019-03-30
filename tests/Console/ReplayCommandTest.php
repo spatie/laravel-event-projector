@@ -70,6 +70,18 @@ final class ReplayCommandTest extends TestCase
     }
 
     /** @test */
+    public function it_can_replay_events_starting_from_a_specific_number()
+    {
+        $projectorClass = BalanceProjector::class;
+
+        Projectionist::addProjector($projectorClass);
+
+        $this->artisan('event-projector:replay', ['projector' => [BalanceProjector::class], '--from' => 2])
+            ->expectsOutput("Replaying 2 events...")
+            ->assertExitCode(0);
+    }
+
+    /** @test */
     public function it_will_not_call_any_reactors()
     {
         Projectionist::addProjector(BalanceProjector::class);
