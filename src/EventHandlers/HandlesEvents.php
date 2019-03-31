@@ -43,7 +43,7 @@ trait HandlesEvents
 
     private function getEventHandlingMethods(): Collection
     {
-        return collect($this->handlesEvents ?? [])
+        $handlesEvents = collect($this->handlesEvents ?? [])
             ->mapWithKeys(function (string $handlerMethod, $eventClass) {
                 if (is_numeric($eventClass)) {
                     return [$handlerMethod => 'on' . ucfirst(class_basename($handlerMethod))];
@@ -51,5 +51,11 @@ trait HandlesEvents
 
                 return [$eventClass => $handlerMethod];
             });
+
+        if ($this->handleEvent ?? false) {
+            $handlesEvents->put($this->handleEvent, get_class($this));
+        }
+
+        return $handlesEvents;
     }
 }

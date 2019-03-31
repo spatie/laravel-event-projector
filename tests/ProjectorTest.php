@@ -10,6 +10,7 @@ use Spatie\EventProjector\Exceptions\CouldNotResetProjector;
 use Spatie\EventProjector\Tests\TestClasses\Events\MoneyAdded;
 use Spatie\EventProjector\Tests\TestClasses\Events\MoneySubtracted;
 use Spatie\EventProjector\Tests\TestClasses\Projectors\BalanceProjector;
+use Spatie\EventProjector\Tests\TestClasses\Projectors\ProjectThatHandlesASingleEvent;
 use Spatie\EventProjector\Tests\TestClasses\Projectors\ResettableProjector;
 use Spatie\EventProjector\Tests\TestClasses\Projectors\ProjectorThatWritesMetaData;
 use Spatie\EventProjector\Tests\TestClasses\Projectors\ProjectorWithAssociativeAndNonAssociativeHandleEvents;
@@ -81,5 +82,19 @@ final class ProjectorTest extends TestCase
         event(new MoneySubtracted($account, 4321));
 
         $this->assertEquals(-3087, $account->refresh()->amount);
+    }
+
+    /** @test */
+    public function it_can_handle_a_single_event()
+    {
+        $account = Account::create();
+
+        $projector = new ProjectThatHandlesASingleEvent();
+
+        Projectionist::addProjector($projector);
+
+        event(new MoneyAdded($account, 1234));
+
+        $this->assertEquals(1234, $account->refresh()->amount);
     }
 }
