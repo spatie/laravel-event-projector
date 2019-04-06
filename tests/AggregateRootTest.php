@@ -40,9 +40,10 @@ final class AggregateRootTest extends TestCase
         /** @var \Spatie\EventProjector\Tests\TestClasses\AggregateRoots\AccountAggregateRoot $aggregateRoot */
         $aggregateRoot = AccountAggregateRoot::retrieve($uuid);
 
-        $aggregateRoot->addMoney(100);
-        $aggregateRoot->addMoney(100);
-        $aggregateRoot->addMoney(100);
+        $aggregateRoot
+            ->addMoney(100)
+            ->addMoney(100)
+            ->addMoney(100);
 
         $aggregateRoot->persist();
 

@@ -20,9 +20,11 @@ final class AccountAggregateRoot extends AggregateRoot
 
     public $balance = 0;
 
-    public function addMoney(int $amount)
+    public function addMoney(int $amount): self
     {
         $this->recordThat(new MoneyAdded($amount));
+
+        return $this;
     }
 
     public function applyMoneyAdded(MoneyAdded $event)
