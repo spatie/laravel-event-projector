@@ -34,6 +34,7 @@ abstract class TestCase extends Orchestra
         Schema::create('accounts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->nullable();
+            $table->string('uuid')->nullable();
             $table->integer('amount')->default(0);
             $table->integer('addition_count')->default(0);
             $table->timestamps();

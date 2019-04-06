@@ -4,6 +4,7 @@ namespace Spatie\EventProjector;
 
 use Illuminate\Support\Str;
 use Spatie\EventProjector\Models\StoredEvent;
+use Spatie\EventProjector\Projectors\ProjectsEvents;
 
 abstract class AggregateRoot
 {
@@ -24,8 +25,10 @@ abstract class AggregateRoot
 
     public function persist(): AggregateRoot
     {
+        $this->registerEventHandlers();
+
         collect($this->recordedEvents())->each(function(DomainEvent $newDomainEvent) {
-            app(Projectionist::class)->storeEvent($newDomainEvent, $this->uuid);
+            $this->getProjectionist()->storeEvent($newDomainEvent, $this->uuid);
         });
 
         return $this;
@@ -62,5 +65,17 @@ abstract class AggregateRoot
         });
 
         return $this;
+    }
+
+    private function getProjectionist(): Projectionist
+    {
+        return app(Projectionist::class);
+    }
+
+    private function registerEventHandlers()
+    {
+        $this->getProjectionist()
+            ->addProjectors($this->projectors ?? [])
+            ->addReactors($this->reactors ?? []);
     }
 }

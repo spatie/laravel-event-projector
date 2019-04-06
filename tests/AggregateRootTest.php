@@ -2,11 +2,11 @@
 
 namespace Spatie\EventProjector\Tests;
 
-use Spatie\EventProjector\AggregateRoot;
 use Spatie\EventProjector\Models\StoredEvent;
 use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\AccountAggregateRoot;
 use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\DomainEvents\MoneyAdded;
 use Spatie\EventProjector\Tests\TestClasses\FakeUuid;
+use Spatie\EventProjector\Tests\TestClasses\Models\Account;
 
 final class AggregateRootTest extends TestCase
 {
@@ -16,9 +16,7 @@ final class AggregateRootTest extends TestCase
         $uuid = FakeUuid::generate();
 
         $aggregateRoot = AccountAggregateRoot::retrieve($uuid);
-
         $aggregateRoot->addMoney(100);
-
         $aggregateRoot->persist();
 
         $storedEvents  = StoredEvent::get();
@@ -49,6 +47,23 @@ final class AggregateRootTest extends TestCase
         $aggregateRoot = AccountAggregateRoot::retrieve($uuid);
 
         $this->assertEquals(300, $aggregateRoot->balance);
+    }
+
+    /** @test */
+    public function it_will_register_and_call_projectors()
+    {
+        $uuid = FakeUuid::generate();
+
+        $aggregateRoot = AccountAggregateRoot::retrieve($uuid);
+        $aggregateRoot->addMoney(123);
+        $aggregateRoot->persist();
+
+        $accounts = Account::get();
+        $this->assertCount(1, $accounts);
+
+        $account = Account::first();
+        $this->assertEquals(123, $account->amount);
+        $this->assertEquals($uuid, $account->uuid);
     }
 }
 
