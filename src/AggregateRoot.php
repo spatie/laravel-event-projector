@@ -60,7 +60,9 @@ abstract class AggregateRoot
 
             $event = $storedEvent->event;
 
-            $this->$applyingMethodName($event, $storedEvent);
+            if (method_exists($this, $applyingMethodName)) {
+                $this->$applyingMethodName($event, $storedEvent);
+            }
         });
 
         return $this;
