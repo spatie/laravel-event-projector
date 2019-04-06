@@ -4,7 +4,7 @@ namespace Spatie\EventProjector\Tests\TestClasses\Projectors;
 
 use Spatie\EventProjector\Projectors\Projector;
 use Spatie\EventProjector\Projectors\ProjectsEvents;
-use Spatie\EventProjector\Tests\TestClasses\Events\MoneyAdded;
+use Spatie\EventProjector\Tests\TestClasses\Events\MoneyAddedEvent;
 use Spatie\EventProjector\Tests\TestClasses\Models\Account;
 
 final class ResettableProjector implements Projector
@@ -12,10 +12,10 @@ final class ResettableProjector implements Projector
     use ProjectsEvents;
 
     protected $handlesEvents = [
-        MoneyAdded::class => 'onMoneyAdded',
+        MoneyAddedEvent::class => 'onMoneyAdded',
     ];
 
-    public function onMoneyAdded(MoneyAdded $event)
+    public function onMoneyAdded(MoneyAddedEvent $event)
     {
         $event->account->addMoney($event->amount);
     }

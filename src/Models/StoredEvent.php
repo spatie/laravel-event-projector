@@ -25,6 +25,7 @@ class StoredEvent extends Model
     public static function createForEvent(DomainEvent $event): StoredEvent
     {
         $storedEvent = new static();
+        $storedEvent->uuid = $event->getUuid();
         $storedEvent->event_class = get_class($event);
         $storedEvent->attributes['event_properties'] = app(EventSerializer::class)->serialize(clone $event);
         $storedEvent->meta_data = [];
@@ -33,11 +34,6 @@ class StoredEvent extends Model
         $storedEvent->save();
 
         return $storedEvent;
-    }
-
-    public static function getMaxId(): int
-    {
-        return static::query()->max('id') ?? 0;
     }
 
     public function getEventAttribute(): DomainEvent
@@ -57,6 +53,11 @@ class StoredEvent extends Model
     public function scopeStartingFrom(Builder $query, int $storedEventId): void
     {
         $query->where('id', '>=', $storedEventId);
+    }
+
+    public function scopeUuid(Builder $query, string $uuid)
+    {
+        $query->where('uuid', $uuid);
     }
 
     public function getMetaDataAttribute(): SchemalessAttributes

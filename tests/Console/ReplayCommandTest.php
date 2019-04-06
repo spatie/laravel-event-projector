@@ -14,9 +14,9 @@ use Spatie\EventProjector\Events\FinishedEventReplay;
 use Spatie\EventProjector\Events\StartingEventReplay;
 use Spatie\EventProjector\Tests\TestClasses\Models\Account;
 use Spatie\EventProjector\Projectionist as BoundProjectionist;
-use Spatie\EventProjector\Tests\TestClasses\Events\MoneyAdded;
+use Spatie\EventProjector\Tests\TestClasses\Events\MoneyAddedEvent;
 use Spatie\EventProjector\Tests\TestClasses\Reactors\BrokeReactor;
-use Spatie\EventProjector\Tests\TestClasses\Events\MoneySubtracted;
+use Spatie\EventProjector\Tests\TestClasses\Events\MoneySubtractedEvent;
 use Spatie\EventProjector\Tests\TestClasses\Mailables\AccountBroke;
 use Spatie\EventProjector\Tests\TestClasses\Projectors\BalanceProjector;
 
@@ -32,7 +32,7 @@ final class ReplayCommandTest extends TestCase
         $this->account = Account::create();
 
         foreach (range(1, 3) as $i) {
-            event(new MoneyAdded($this->account, 1000));
+            event(new MoneyAddedEvent($this->account, 1000));
         }
 
         Mail::fake();
@@ -90,7 +90,7 @@ final class ReplayCommandTest extends TestCase
         StoredEvent::truncate();
 
         $account = Account::create();
-        event(new MoneySubtracted($account, 2000));
+        event(new MoneySubtractedEvent($account, 2000));
 
         Mail::assertSent(AccountBroke::class, 1);
 

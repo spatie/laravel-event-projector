@@ -7,8 +7,8 @@ use Spatie\EventProjector\Facades\Projectionist;
 use Spatie\EventProjector\Models\ProjectorStatus;
 use Spatie\EventProjector\Tests\TestClasses\Models\Account;
 use Spatie\EventProjector\Exceptions\CouldNotResetProjector;
-use Spatie\EventProjector\Tests\TestClasses\Events\MoneyAdded;
-use Spatie\EventProjector\Tests\TestClasses\Events\MoneySubtracted;
+use Spatie\EventProjector\Tests\TestClasses\Events\MoneyAddedEvent;
+use Spatie\EventProjector\Tests\TestClasses\Events\MoneySubtractedEvent;
 use Spatie\EventProjector\Tests\TestClasses\Projectors\BalanceProjector;
 use Spatie\EventProjector\Tests\TestClasses\Projectors\ProjectThatHandlesASingleEvent;
 use Spatie\EventProjector\Tests\TestClasses\Projectors\ResettableProjector;
@@ -22,7 +22,7 @@ final class ProjectorTest extends TestCase
     {
         Projectionist::addProjector(ProjectorThatWritesMetaData::class);
 
-        event(new MoneyAdded(Account::create(), 1234));
+        event(new MoneyAddedEvent(Account::create(), 1234));
 
         $this->assertCount(1, StoredEvent::get());
 
@@ -63,7 +63,7 @@ final class ProjectorTest extends TestCase
 
         Projectionist::addProjector($projector);
 
-        event(new MoneyAdded($account, 1234));
+        event(new MoneyAddedEvent($account, 1234));
 
         $this->assertEquals(1234, $account->refresh()->amount);
     }
@@ -77,9 +77,9 @@ final class ProjectorTest extends TestCase
 
         Projectionist::addProjector($projector);
 
-        event(new MoneyAdded($account, 1234));
+        event(new MoneyAddedEvent($account, 1234));
 
-        event(new MoneySubtracted($account, 4321));
+        event(new MoneySubtractedEvent($account, 4321));
 
         $this->assertEquals(-3087, $account->refresh()->amount);
     }
@@ -93,7 +93,7 @@ final class ProjectorTest extends TestCase
 
         Projectionist::addProjector($projector);
 
-        event(new MoneyAdded($account, 1234));
+        event(new MoneyAddedEvent($account, 1234));
 
         $this->assertEquals(1234, $account->refresh()->amount);
     }

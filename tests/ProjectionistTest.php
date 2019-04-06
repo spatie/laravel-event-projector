@@ -11,9 +11,9 @@ use Spatie\EventProjector\HandleDomainEventJob;
 use Spatie\EventProjector\Facades\Projectionist;
 use Spatie\EventProjector\Models\ProjectorStatus;
 use Spatie\EventProjector\Tests\TestClasses\Models\Account;
-use Spatie\EventProjector\Tests\TestClasses\Events\MoneyAdded;
+use Spatie\EventProjector\Tests\TestClasses\Events\MoneyAddedEvent;
 use Spatie\EventProjector\Tests\TestClasses\Reactors\BrokeReactor;
-use Spatie\EventProjector\Tests\TestClasses\Events\MoneySubtracted;
+use Spatie\EventProjector\Tests\TestClasses\Events\MoneySubtractedEvent;
 use Spatie\EventProjector\Tests\TestClasses\Projectors\BalanceProjector;
 use Spatie\EventProjector\Tests\TestClasses\Projectors\UnrelatedProjector;
 use Spatie\EventProjector\Tests\TestClasses\Projectors\MoneyAddedCountProjector;
@@ -55,7 +55,7 @@ final class ProjectionistTest extends TestCase
 
         Projectionist::addProjector(InvalidProjectorThatDoesNotHaveTheRightEventHandlingMethod::class);
 
-        event(new MoneyAdded($this->account, 1234));
+        event(new MoneyAddedEvent($this->account, 1234));
     }
 
     /** @test */
@@ -87,7 +87,7 @@ final class ProjectionistTest extends TestCase
 
         Projectionist::addProjector($projector);
 
-        event(new MoneyAdded($this->account, 1000));
+        event(new MoneyAddedEvent($this->account, 1000));
     }
 
     /** @test */
@@ -101,7 +101,7 @@ final class ProjectionistTest extends TestCase
         $workingProjector = new BalanceProjector();
         Projectionist::addProjector($workingProjector);
 
-        event(new MoneyAdded($this->account, 1000));
+        event(new MoneyAddedEvent($this->account, 1000));
 
         $this->assertEquals(1000, $this->account->refresh()->amount);
     }
@@ -114,7 +114,7 @@ final class ProjectionistTest extends TestCase
 
         $this->expectException(Exception::class);
 
-        event(new MoneyAdded($this->account, 1000));
+        event(new MoneyAddedEvent($this->account, 1000));
     }
 
     /** @test */
@@ -122,7 +122,7 @@ final class ProjectionistTest extends TestCase
     {
         Projectionist::addProjector(MoneyAddedCountProjector::class);
 
-        event(new MoneySubtracted($this->account, 500));
+        event(new MoneySubtractedEvent($this->account, 500));
 
         $this->assertEquals(0, $this->account->fresh()->addition_count);
     }
@@ -134,12 +134,12 @@ final class ProjectionistTest extends TestCase
 
         Projectionist::addProjector(MoneyAddedCountProjector::class);
 
-        event(new MoneyAdded($this->account, 500));
+        event(new MoneyAddedEvent($this->account, 500));
 
         Queue::assertPushed(HandleDomainEventJob::class, function (HandleDomainEventJob $job) {
             $expected = [
                 'Account:'.$this->account->id,
-                MoneyAdded::class,
+                MoneyAddedEvent::class,
             ];
 
             return $expected === $job->tags();

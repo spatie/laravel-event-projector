@@ -43,7 +43,7 @@ return [
     /*
      * This class is responsible for handle stored events. To add extra behaviour you
      * can change this to a class of your own. The only restriction is that
-     * it should extend \Spatie\EventProjector\HandleStoredEventJob.
+     * it should extend \Spatie\EventProjector\HandleDomainEventJob.
      */
     'stored_event_job' => \Spatie\EventProjector\HandleDomainEventJob::class,
 

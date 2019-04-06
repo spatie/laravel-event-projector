@@ -7,7 +7,7 @@ use Spatie\EventProjector\Models\StoredEvent;
 use Spatie\EventProjector\Facades\Projectionist;
 use Spatie\EventProjector\Exceptions\InvalidStoredEvent;
 use Spatie\EventProjector\Tests\TestClasses\Models\Account;
-use Spatie\EventProjector\Tests\TestClasses\Events\MoneyAdded;
+use Spatie\EventProjector\Tests\TestClasses\Events\MoneyAddedEvent;
 use Spatie\EventProjector\Tests\TestClasses\Projectors\BalanceProjector;
 
 final class StoredEventTest extends TestCase
@@ -45,7 +45,7 @@ final class StoredEventTest extends TestCase
         StoredEvent::first()->event;
     }
 
-    public function fireEvents(int $number = 1, string $className = MoneyAdded::class)
+    public function fireEvents(int $number = 1, string $className = MoneyAddedEvent::class)
     {
         foreach (range(1, $number) as $i) {
             event(new $className($this->account, 1234));

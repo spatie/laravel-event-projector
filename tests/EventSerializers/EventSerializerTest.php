@@ -2,10 +2,11 @@
 
 namespace Spatie\EventProjector\Tests\EventSerializers;
 
+use Ramsey\Uuid\Uuid;
 use Spatie\EventProjector\Tests\TestCase;
 use Spatie\EventProjector\EventSerializers\EventSerializer;
 use Spatie\EventProjector\Tests\TestClasses\Models\Account;
-use Spatie\EventProjector\Tests\TestClasses\Events\MoneyAdded;
+use Spatie\EventProjector\Tests\TestClasses\Events\MoneyAddedEvent;
 use Spatie\EventProjector\Tests\TestClasses\Events\EventWithoutSerializedModels;
 
 final class EventSerializerTest extends TestCase
@@ -18,6 +19,7 @@ final class EventSerializerTest extends TestCase
         parent::setUp();
 
         $this->eventSerializer = app(EventSerializer::class);
+
     }
 
     /** @test */
@@ -29,14 +31,17 @@ final class EventSerializerTest extends TestCase
 
         $array = json_decode($json, true);
 
-        $this->assertEquals(['value' => 'test'], $array);
+        $this->assertEquals([
+            'value' => 'test',
+            'uuid' => 'uuid-1',
+        ], $array);
     }
 
     /** @test */
     public function it_can_serialize_an_event_containing_a_model()
     {
         $account = Account::create(['name' => 'test']);
-        $event = new MoneyAdded($account, 1234);
+        $event = new MoneyAddedEvent($account, 1234);
 
         $json = $this->eventSerializer->serialize($event);
         $event = $this->eventSerializer->deserialize(get_class($event), $json);
@@ -51,7 +56,7 @@ final class EventSerializerTest extends TestCase
     {
         $account = Account::create();
 
-        $event = new MoneyAdded($account, 1234);
+        $event = new MoneyAddedEvent($account, 1234);
 
         $json = $this->eventSerializer->serialize($event);
 
@@ -65,6 +70,7 @@ final class EventSerializerTest extends TestCase
                 'connection' => 'mysql',
             ],
             'amount' => 1234,
+            'uuid' => 'uuid-1',
         ], $array);
     }
 }
