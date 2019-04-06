@@ -1,25 +1,23 @@
 <?php
 
-
 namespace Spatie\EventProjector\AggregateRoots;
-
 
 use Spatie\EventProjector\DomainEvent;
 
 trait AggregateRootBehaviour
 {
     /** @var array */
-    protected $recordedEvents = [];
+    private $recordedEvents = [];
 
     /** @var string */
-    protected $uuid;
+    private $uuid;
 
     public function recordThat(DomainEvent $domainEvent)
     {
         $this->recordedEvents[] = $domainEvent;
     }
 
-    public function getRecordedEvents(): array
+    public function recordedEvents(): array
     {
         $recordedEvents = $this->recordedEvents;
 

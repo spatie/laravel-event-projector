@@ -50,7 +50,7 @@ abstract class AggregateRootRepository
 
     public function persist(AggregateRoot $aggregateRoot)
     {
-        collect($aggregateRoot->getRecordedEvents())->each(function(DomainEvent $newDomainEvent) use ($aggregateRoot) {
+        collect($aggregateRoot->recordedEvents())->each(function(DomainEvent $newDomainEvent) use ($aggregateRoot) {
             $this->projectionist->storeEvent($newDomainEvent, $aggregateRoot->getUuid());
         });
     }

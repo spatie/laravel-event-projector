@@ -8,7 +8,7 @@ interface AggregateRoot
 {
     public function recordThat(DomainEvent $event);
 
-    public function getRecordedEvents(): array;
+    public function recordedEvents(): array;
 
     public function setUuid(string $uuid);
 
