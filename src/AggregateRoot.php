@@ -43,18 +43,6 @@ abstract class AggregateRoot
         return $recordedEvents;
     }
 
-    private function getUuid(): string
-    {
-        return $this->uuid;
-    }
-
-    private function setUuid(string $uuid)
-    {
-        $this->uuid = $uuid;
-
-        return $this;
-    }
-
     private function reconstituteFromEvents()
     {
         StoredEvent::uuid($this->uuid)->each(function (StoredEvent $storedEvent) {
@@ -68,6 +56,18 @@ abstract class AggregateRoot
 
             $this->$applyingMethodName($event, $storedEvent);
         });
+
+        return $this;
+    }
+
+    private function getUuid(): string
+    {
+        return $this->uuid;
+    }
+
+    private function setUuid(string $uuid)
+    {
+        $this->uuid = $uuid;
 
         return $this;
     }
