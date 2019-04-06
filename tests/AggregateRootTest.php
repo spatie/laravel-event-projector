@@ -2,9 +2,11 @@
 
 namespace Spatie\EventProjector\Tests;
 
+use Illuminate\Support\Facades\Mail;
 use Spatie\EventProjector\Models\StoredEvent;
 use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\AccountAggregateRoot;
 use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\DomainEvents\MoneyAdded;
+use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\Mailable\MoneyAddedMailable;
 use Spatie\EventProjector\Tests\TestClasses\FakeUuid;
 use Spatie\EventProjector\Tests\TestClasses\Models\Account;
 
@@ -69,7 +71,7 @@ final class AggregateRootTest extends TestCase
     /** @test */
     public function it_will_register_and_call_reactors()
     {
-
+        Mail::fake();
 
         $uuid = FakeUuid::generate();
 
@@ -77,12 +79,12 @@ final class AggregateRootTest extends TestCase
         $aggregateRoot->addMoney(123);
         $aggregateRoot->persist();
 
-        $accounts = Account::get();
-        $this->assertCount(1, $accounts);
+        Mail::assertSent(MoneyAddedMailable::class, function(MoneyAddedMailable $mailable) use ($uuid) {
+            $this->assertEquals($uuid, $mailable->uuid);
+            $this->assertEquals(123, $mailable->amount);
 
-        $account = Account::first();
-        $this->assertEquals(123, $account->amount);
-        $this->assertEquals($uuid, $account->uuid);
+            return true;
+        });
     }
 }
 

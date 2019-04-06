@@ -22,7 +22,12 @@ final class EventHandlerCollection
 
     public function add($eventHandler): void
     {
+
         if (is_string($eventHandler)) {
+            if ($this->eventHandlers->has($eventHandler)) {
+                return;
+            }
+
             $eventHandler = app($eventHandler);
         }
 
@@ -35,6 +40,7 @@ final class EventHandlerCollection
         if (!$this->eventHandlers->has($className)) {
             $this->eventHandlers[$className] = $eventHandler;
         }
+
     }
 
     public function all(): Collection

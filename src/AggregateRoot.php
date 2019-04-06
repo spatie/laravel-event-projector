@@ -4,10 +4,11 @@ namespace Spatie\EventProjector;
 
 use Illuminate\Support\Str;
 use Spatie\EventProjector\Models\StoredEvent;
-use Spatie\EventProjector\Projectors\ProjectsEvents;
 
 abstract class AggregateRoot
 {
+    static protected $eventHandlersRegistered = false;
+
     /** @var array */
     private $recordedEvents = [];
 
@@ -74,8 +75,12 @@ abstract class AggregateRoot
 
     private function registerEventHandlers()
     {
+
         $this->getProjectionist()
             ->addProjectors($this->projectors ?? [])
             ->addReactors($this->reactors ?? []);
+
+
+        static::$eventHandlersRegistered = true;
     }
 }

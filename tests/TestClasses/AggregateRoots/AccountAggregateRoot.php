@@ -6,11 +6,16 @@ use Spatie\EventProjector\AggregateRoot;
 use Spatie\EventProjector\AggregateRoots\AggregateRootBehaviour;
 use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\DomainEvents\MoneyAdded;
 use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\Projectors\AccountProjector;
+use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\Reactors\SendMailReactor;
 
 final class AccountAggregateRoot extends AggregateRoot
 {
     protected $projectors = [
         AccountProjector::class,
+    ];
+
+    protected $reactors = [
+        SendMailReactor::class,
     ];
 
     public $balance = 0;
@@ -25,4 +30,3 @@ final class AccountAggregateRoot extends AggregateRoot
         $this->balance += $event->amount;
     }
 }
-
