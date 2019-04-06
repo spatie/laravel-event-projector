@@ -15,15 +15,17 @@ abstract class AggregateRoot
 
     public static function retrieve(string $uuid): AggregateRoot
     {
-        return (new static())
-            ->setUuid($uuid)
-            ->reconstituteFromEvents();
+        $aggregateRoot =  (new static());
+
+        $aggregateRoot->uuid = $uuid;
+
+        return $aggregateRoot->reconstituteFromEvents();
     }
 
     public function persist(): AggregateRoot
     {
         collect($this->recordedEvents())->each(function(DomainEvent $newDomainEvent) {
-            app(Projectionist::class)->storeEvent($newDomainEvent, $this->getUuid());
+            app(Projectionist::class)->storeEvent($newDomainEvent, $this->uuid);
         });
 
         return $this;
@@ -58,18 +60,6 @@ abstract class AggregateRoot
 
             $this->$applyingMethodName($event, $storedEvent);
         });
-
-        return $this;
-    }
-
-    private function getUuid(): string
-    {
-        return $this->uuid;
-    }
-
-    private function setUuid(string $uuid)
-    {
-        $this->uuid = $uuid;
 
         return $this;
     }
