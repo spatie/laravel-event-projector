@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\EventProjector\Tests\TestClasses\AggregateRoots\Messages;
+namespace Spatie\EventProjector\Tests\TestClasses\AggregateRoots\DomainEvents;
 
 use Spatie\EventProjector\DomainEvent;
 

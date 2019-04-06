@@ -3,7 +3,7 @@
 namespace Spatie\EventProjector\Tests\TestClasses\AggregateRoots;
 
 use Spatie\EventProjector\AggregateRoots\AggregateRootBehaviour;
-use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\Messages\MoneyAdded;
+use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\DomainEvents\MoneyAdded;
 use Spatie\EventProjector\Tests\TestClasses\Events\MoneyAddedEvent;
 
 final class AggregateRoot implements \Spatie\EventProjector\AggregateRoots\AggregateRoot

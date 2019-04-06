@@ -4,7 +4,7 @@ namespace Spatie\EventProjector\Tests;
 
 use Spatie\EventProjector\Models\StoredEvent;
 use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\AggregateRootRepository;
-use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\Messages\MoneyAdded;
+use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\DomainEvents\MoneyAdded;
 use Spatie\EventProjector\Tests\TestClasses\FakeUuid;
 
 final class AggregateRootRepositoryTest extends TestCase
