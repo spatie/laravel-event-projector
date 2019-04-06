@@ -47,7 +47,7 @@ final class Projectionist
             $projector = app($projector);
         }
 
-        if (! $projector instanceof Projector) {
+        if (!$projector instanceof Projector) {
             throw InvalidEventHandler::notAProjector($projector);
         }
 
@@ -115,19 +115,30 @@ final class Projectionist
         return $this->reactors->all();
     }
 
+    public function storeEvents(array $events, string $uuid = null): void
+    {
+        collect($events)
+            ->map(function (DomainEvent $domainEvent) use ($uuid) {
+                $storedEvent = $this->getStoredEventClass()::createForEvent($domainEvent, $uuid);
+
+                return [$domainEvent, $storedEvent];
+            })
+            ->eachSpread(function(DomainEvent $event, StoredEvent $storedEvent) {
+                $this->handleImmediately($storedEvent);
+
+                if (method_exists($event, 'tags')) {
+                    $tags = $event->tags();
+                }
+
+                $storedEventJob = $this->getStoredEventJob()::createForEvent($storedEvent, $tags ?? []);
+
+                dispatch($storedEventJob->onQueue($this->config['queue']));
+            });
+    }
+
     public function storeEvent(DomainEvent $event, string $uuid = null): void
     {
-        $storedEvent = $this->getStoredEventClass()::createForEvent($event, $uuid);
-
-        $this->handleImmediately($storedEvent);
-
-        if (method_exists($event, 'tags')) {
-            $tags = $event->tags();
-        }
-
-        $storedEventJob = $this->getStoredEventJob()::createForEvent($storedEvent, $tags ?? []);
-
-        dispatch($storedEventJob->onQueue($this->config['queue']));
+       $this->storeEvents([$event], $uuid);
     }
 
     public function handle(StoredEvent $storedEvent): void
@@ -189,7 +200,7 @@ final class Projectionist
 
             $eventHandler->handle($storedEvent);
         } catch (Exception $exception) {
-            if (! $this->config['catch_exceptions']) {
+            if (!$this->config['catch_exceptions']) {
                 throw $exception;
             }
 
@@ -212,13 +223,14 @@ final class Projectionist
         Collection $projectors,
         int $startingFromEventId = 0,
         callable $onEventReplayed = null
-    ): void {
+    ): void
+    {
         $projectors = new EventHandlerCollection($projectors);
 
         $this->isReplaying = true;
 
         if ($startingFromEventId === 0) {
-            $projectors->all()->each(function(Projector $projector) {
+            $projectors->all()->each(function (Projector $projector) {
                 if (method_exists($projector, 'resetState')) {
                     $projector->resetState();
                 }
