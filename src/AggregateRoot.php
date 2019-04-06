@@ -47,7 +47,7 @@ abstract class AggregateRoot
         return $recordedEvents;
     }
 
-    private function reconstituteFromEvents()
+    private function reconstituteFromEvents(): AggregateRoot
     {
         StoredEvent::uuid($this->uuid)->each(function (StoredEvent $storedEvent) {
             $classBaseName = class_basename($storedEvent->event_class);
