@@ -37,6 +37,8 @@ abstract class AggregateRoot
     {
         $this->recordedEvents[] = $domainEvent;
 
+        $this->apply($domainEvent);
+
         return $this;
     }
 
@@ -52,20 +54,23 @@ abstract class AggregateRoot
     private function reconstituteFromEvents(): AggregateRoot
     {
         StoredEvent::uuid($this->uuid)->each(function (StoredEvent $storedEvent) {
-            $classBaseName = class_basename($storedEvent->event_class);
-
-            $camelCasedBaseName = ucfirst(Str::camel($classBaseName));
-
-            $applyingMethodName = "apply{$camelCasedBaseName}";
-
-            $event = $storedEvent->event;
-
-            if (method_exists($this, $applyingMethodName)) {
-                $this->$applyingMethodName($event, $storedEvent);
-            }
+            $this->apply($storedEvent->event);
         });
 
         return $this;
+    }
+
+    private function apply(DomainEvent $event): void
+    {
+        $classBaseName = class_basename($event);
+
+        $camelCasedBaseName = ucfirst(Str::camel($classBaseName));
+
+        $applyingMethodName = "apply{$camelCasedBaseName}";
+
+        if (method_exists($this, $applyingMethodName)) {
+            $this->$applyingMethodName($event);
+        }
     }
 
     private function getProjectionist(): Projectionist
