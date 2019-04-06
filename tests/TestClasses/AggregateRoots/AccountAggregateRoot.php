@@ -2,11 +2,11 @@
 
 namespace Spatie\EventProjector\Tests\TestClasses\AggregateRoots;
 
+use Spatie\EventProjector\AggregateRoots\AggregateRoot;
 use Spatie\EventProjector\AggregateRoots\AggregateRootBehaviour;
 use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\DomainEvents\MoneyAdded;
-use Spatie\EventProjector\Tests\TestClasses\Events\MoneyAddedEvent;
 
-final class AggregateRoot implements \Spatie\EventProjector\AggregateRoots\AggregateRoot
+final class AccountAggregateRoot implements AggregateRoot
 {
     use AggregateRootBehaviour;
 
