@@ -65,5 +65,24 @@ final class AggregateRootTest extends TestCase
         $this->assertEquals(123, $account->amount);
         $this->assertEquals($uuid, $account->uuid);
     }
+
+    /** @test */
+    public function it_will_register_and_call_reactors()
+    {
+
+
+        $uuid = FakeUuid::generate();
+
+        $aggregateRoot = AccountAggregateRoot::retrieve($uuid);
+        $aggregateRoot->addMoney(123);
+        $aggregateRoot->persist();
+
+        $accounts = Account::get();
+        $this->assertCount(1, $accounts);
+
+        $account = Account::first();
+        $this->assertEquals(123, $account->amount);
+        $this->assertEquals($uuid, $account->uuid);
+    }
 }
 
