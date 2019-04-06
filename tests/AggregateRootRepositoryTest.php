@@ -33,5 +33,26 @@ final class AggregateRootRepositoryTest extends TestCase
         $this->assertInstanceOf(MoneyAdded::class, $event);
         $this->assertEquals(100, $event->amount);
     }
+
+    /** @test */
+    public function when_retrieving_an_aggregate_root_all_events_will_be_replayed_to_it()
+    {
+        $repository =  app(AggregateRootRepository::class);
+
+        $uuid = FakeUuid::generate();
+
+        /** @var \Spatie\EventProjector\Tests\TestClasses\AggregateRoots\AggregateRoot $aggregateRoot */
+        $aggregateRoot = $repository->retrieve($uuid);
+
+        $aggregateRoot->addMoney(100);
+        $aggregateRoot->addMoney(100);
+        $aggregateRoot->addMoney(100);
+
+        $repository->persist($aggregateRoot);
+
+        $aggregateRoot = $repository->retrieve($uuid);
+
+        $this->assertEquals(300, $aggregateRoot->balance);
+    }
 }
 

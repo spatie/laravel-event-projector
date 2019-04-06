@@ -17,7 +17,7 @@ final class AggregateRoot implements \Spatie\EventProjector\AggregateRoots\Aggre
         $this->recordThat(new MoneyAdded($amount));
     }
 
-    public function applyAddMoney(MoneyAddedEvent $event)
+    public function applyMoneyAdded(MoneyAdded $event)
     {
         $this->balance += $event->amount;
     }

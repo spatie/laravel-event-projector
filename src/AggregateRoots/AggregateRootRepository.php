@@ -36,9 +36,9 @@ abstract class AggregateRootRepository
         $aggreageRoot->setUuid($uuid);
 
         StoredEvent::uuid($uuid)->each(function (StoredEvent $storedEvent) use ($aggreageRoot) {
-            $classBaseName = class_basename($storedEvent);
+            $classBaseName = class_basename($storedEvent->event_class);
 
-            $camelCasesBaseName = Str::camel($classBaseName);
+            $camelCasesBaseName = ucfirst(Str::camel($classBaseName));
 
             $applyingMethodName = "apply{$camelCasesBaseName}";
 
