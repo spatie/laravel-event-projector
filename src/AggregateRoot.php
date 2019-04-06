@@ -26,7 +26,7 @@ abstract class AggregateRoot
     {
         $this->registerEventHandlers();
 
-        collect($this->recordedEvents())->each(function(DomainEvent $newDomainEvent) {
+        collect($this->getAndClearRecoredEvents())->each(function(DomainEvent $newDomainEvent) {
             $this->getProjectionist()->storeEvent($newDomainEvent, $this->uuid);
         });
 
@@ -42,7 +42,7 @@ abstract class AggregateRoot
         return $this;
     }
 
-    private function recordedEvents(): array
+    private function getAndClearRecoredEvents(): array
     {
         $recordedEvents = $this->recordedEvents;
 
