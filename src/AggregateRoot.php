@@ -7,8 +7,6 @@ use Spatie\EventProjector\Models\StoredEvent;
 
 abstract class AggregateRoot
 {
-    static protected $eventHandlersRegistered = false;
-
     /** @var array */
     private $recordedEvents = [];
 
