@@ -3,6 +3,7 @@
 namespace Spatie\EventProjector\Tests\TestClasses\AggregateRoots;
 
 use Spatie\EventProjector\AggregateRoots\AggregateRootBehaviour;
+use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\Messages\MoneyAdded;
 use Spatie\EventProjector\Tests\TestClasses\Events\MoneyAddedEvent;
 
 final class AggregateRoot implements \Spatie\EventProjector\AggregateRoots\AggregateRoot
@@ -13,7 +14,7 @@ final class AggregateRoot implements \Spatie\EventProjector\AggregateRoots\Aggre
 
     public function addMoney(int $amount)
     {
-        $this->recordThat(new MoneyAddedEvent($this->getUuid(), $amount));
+        $this->recordThat(new MoneyAdded($amount));
     }
 
     public function applyAddMoney(MoneyAddedEvent $event)

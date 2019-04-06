@@ -28,7 +28,7 @@ trait AggregateRootBehaviour
         return $recordedEvents;
     }
 
-    public function getUuid()
+    public function getUuid(): string
     {
         return $this->uuid;
     }

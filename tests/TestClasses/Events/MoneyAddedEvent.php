@@ -12,15 +12,15 @@ final class MoneyAddedEvent implements DomainEvent
 {
     use SerializesModels;
 
-    /** @var string */
-    public $uuid;
+    /** @var \Spatie\EventProjector\Tests\TestClasses\Models\Account */
+    public $account;
 
     /** @var int */
     public $amount;
 
-    public function __construct(string $uuid, int $amount)
+    public function __construct(Account $account, int $amount)
     {
-        $this->uuid = $uuid;
+        $this->account = $account;
 
         $this->amount = $amount;
     }
@@ -28,13 +28,8 @@ final class MoneyAddedEvent implements DomainEvent
     public function tags(): array
     {
         return [
-            'Account:'.$this->uuid,
+            'Account:'.$this->account->id,
             self::class,
         ];
-    }
-
-    public function getUuid(): string
-    {
-        return $this->uuid;
     }
 }

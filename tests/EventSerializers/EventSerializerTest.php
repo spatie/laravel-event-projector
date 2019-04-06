@@ -33,7 +33,6 @@ final class EventSerializerTest extends TestCase
 
         $this->assertEquals([
             'value' => 'test',
-            'uuid' => 'uuid-1',
         ], $array);
     }
 
@@ -70,7 +69,6 @@ final class EventSerializerTest extends TestCase
                 'connection' => 'mysql',
             ],
             'amount' => 1234,
-            'uuid' => 'uuid-1',
         ], $array);
     }
 }

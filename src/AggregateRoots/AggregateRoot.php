@@ -11,4 +11,6 @@ interface AggregateRoot
     public function getRecordedEvents(): array;
 
     public function setUuid(string $uuid);
+
+    public function getUuid(): string;
 }

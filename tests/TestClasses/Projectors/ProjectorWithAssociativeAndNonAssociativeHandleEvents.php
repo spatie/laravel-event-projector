@@ -16,7 +16,7 @@ final class ProjectorWithAssociativeAndNonAssociativeHandleEvents implements Pro
         MoneySubtractedEvent::class => 'onMoneySubtracted',
     ];
 
-    public function onMoneyAdded(MoneyAddedEvent $event)
+    public function onMoneyAddedEvent(MoneyAddedEvent $event)
     {
         $event->account->addMoney($event->amount);
     }

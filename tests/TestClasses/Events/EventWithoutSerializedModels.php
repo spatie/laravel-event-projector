@@ -15,9 +15,4 @@ final class EventWithoutSerializedModels implements DomainEvent
     {
         $this->value = $value;
     }
-
-    public function getUuid(): string
-    {
-        return FakeUuid::generate();
-    }
 }

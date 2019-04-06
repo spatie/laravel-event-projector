@@ -23,9 +23,4 @@ final class MoneySubtractedEvent implements DomainEvent
 
         $this->amount = $amount;
     }
-
-    public function getUuid(): string
-    {
-        return FakeUuid::generate();
-    }
 }

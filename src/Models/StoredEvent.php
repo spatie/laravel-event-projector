@@ -22,10 +22,10 @@ class StoredEvent extends Model
         'meta_data' => 'array',
     ];
 
-    public static function createForEvent(DomainEvent $event): StoredEvent
+    public static function createForEvent(DomainEvent $event, string $uuid = null): StoredEvent
     {
         $storedEvent = new static();
-        $storedEvent->uuid = $event->getUuid();
+        $storedEvent->uuid = $uuid;
         $storedEvent->event_class = get_class($event);
         $storedEvent->attributes['event_properties'] = app(EventSerializer::class)->serialize(clone $event);
         $storedEvent->meta_data = [];

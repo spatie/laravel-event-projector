@@ -115,9 +115,9 @@ final class Projectionist
         return $this->reactors->all();
     }
 
-    public function storeEvent(DomainEvent $event): void
+    public function storeEvent(DomainEvent $event, string $uuid = null): void
     {
-        $storedEvent = $this->getStoredEventClass()::createForEvent($event);
+        $storedEvent = $this->getStoredEventClass()::createForEvent($event, $uuid);
 
         $this->handleImmediately($storedEvent);
 
