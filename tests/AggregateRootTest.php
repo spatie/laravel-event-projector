@@ -17,9 +17,9 @@ final class AggregateRootTest extends TestCase
     {
         $uuid = FakeUuid::generate();
 
-        $aggregateRoot = AccountAggregateRoot::retrieve($uuid);
-        $aggregateRoot->addMoney(100);
-        $aggregateRoot->persist();
+        AccountAggregateRoot::retrieve($uuid)
+            ->addMoney(100)
+            ->persist();
 
         $storedEvents  = StoredEvent::get();
         $this->assertCount(1, $storedEvents);

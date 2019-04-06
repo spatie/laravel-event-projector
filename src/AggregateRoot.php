@@ -73,12 +73,8 @@ abstract class AggregateRoot
 
     private function registerEventHandlers()
     {
-
         $this->getProjectionist()
             ->addProjectors($this->projectors ?? [])
             ->addReactors($this->reactors ?? []);
-
-
-        static::$eventHandlersRegistered = true;
     }
 }
