@@ -7,11 +7,11 @@ use Spatie\EventProjector\Models\StoredEvent;
 
 abstract class AggregateRoot
 {
-    /** @var array */
-    private $recordedEvents = [];
-
     /** @var string */
     private $uuid;
+
+    /** @var array */
+    private $recordedEvents = [];
 
     public static function retrieve(string $uuid): AggregateRoot
     {
