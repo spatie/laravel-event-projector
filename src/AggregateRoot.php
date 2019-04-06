@@ -13,14 +13,14 @@ abstract class AggregateRoot
     /** @var string */
     private $uuid;
 
-    public static function retrieve(string $uuid)
+    public static function retrieve(string $uuid): AggregateRoot
     {
         return (new static())
             ->setUuid($uuid)
             ->reconstituteFromEvents();
     }
 
-    public function persist()
+    public function persist(): AggregateRoot
     {
         collect($this->recordedEvents())->each(function(DomainEvent $newDomainEvent) {
             app(Projectionist::class)->storeEvent($newDomainEvent, $this->getUuid());
@@ -29,9 +29,11 @@ abstract class AggregateRoot
         return $this;
     }
 
-    public function recordThat(DomainEvent $domainEvent)
+    public function recordThat(DomainEvent $domainEvent): AggregateRoot
     {
         $this->recordedEvents[] = $domainEvent;
+
+        return $this;
     }
 
     private function recordedEvents(): array
