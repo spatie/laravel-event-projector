@@ -52,9 +52,9 @@ abstract class AggregateRoot
         StoredEvent::uuid($this->uuid)->each(function (StoredEvent $storedEvent) {
             $classBaseName = class_basename($storedEvent->event_class);
 
-            $camelCasesBaseName = ucfirst(Str::camel($classBaseName));
+            $camelCasedBaseName = ucfirst(Str::camel($classBaseName));
 
-            $applyingMethodName = "apply{$camelCasesBaseName}";
+            $applyingMethodName = "apply{$camelCasedBaseName}";
 
             $event = $storedEvent->event;
 
