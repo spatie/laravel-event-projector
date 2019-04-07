@@ -7,14 +7,13 @@ use Illuminate\Support\Facades\Mail;
 use Spatie\EventProjector\Models\StoredEvent;
 use Spatie\EventProjector\HandleDomainEventJob;
 use Spatie\EventProjector\Facades\Projectionist;
-use Spatie\EventProjector\Models\ProjectorStatus;
 use Spatie\EventProjector\Tests\TestClasses\Models\Account;
-use Spatie\EventProjector\Tests\TestClasses\Events\MoneyAddedEvent;
 use Spatie\EventProjector\Tests\TestClasses\Reactors\BrokeReactor;
-use Spatie\EventProjector\Tests\TestClasses\Events\MoneySubtractedEvent;
+use Spatie\EventProjector\Tests\TestClasses\Events\MoneyAddedEvent;
 use Spatie\EventProjector\Tests\TestClasses\Mailables\AccountBroke;
 use Spatie\EventProjector\Tests\TestClasses\Events\DoNotStoreThisEvent;
 use Spatie\EventProjector\Tests\TestClasses\Projectors\QueuedProjector;
+use Spatie\EventProjector\Tests\TestClasses\Events\MoneySubtractedEvent;
 use Spatie\EventProjector\Tests\TestClasses\Projectors\BalanceProjector;
 use Spatie\EventProjector\Tests\TestClasses\Projectors\ProjectorThatInvokesAnObject;
 

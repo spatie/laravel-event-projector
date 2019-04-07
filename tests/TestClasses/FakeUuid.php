@@ -8,7 +8,7 @@ final class FakeUuid
 
     public static function generate()
     {
-        return 'uuid-' . self::$count++;
+        return 'uuid-'.self::$count++;
     }
 
     public static function reset()
@@ -16,4 +16,3 @@ final class FakeUuid
         self::$count = 1;
     }
 }
-

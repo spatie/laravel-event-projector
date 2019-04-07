@@ -24,4 +24,3 @@ final class MoneyAddedMailable extends Mailable
         return $this->html('');
     }
 }
-

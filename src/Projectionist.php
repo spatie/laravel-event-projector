@@ -13,7 +13,6 @@ use Spatie\EventProjector\Events\StartingEventReplay;
 use Spatie\EventProjector\Exceptions\InvalidEventHandler;
 use Spatie\EventProjector\EventHandlers\EventHandlerCollection;
 use Spatie\EventProjector\Events\EventHandlerFailedHandlingEvent;
-use Spatie\EventProjector\Events\ProjectorDidNotHandlePriorEvents;
 
 final class Projectionist
 {
@@ -47,7 +46,7 @@ final class Projectionist
             $projector = app($projector);
         }
 
-        if (!$projector instanceof Projector) {
+        if (! $projector instanceof Projector) {
             throw InvalidEventHandler::notAProjector($projector);
         }
 
@@ -123,7 +122,7 @@ final class Projectionist
 
                 return [$domainEvent, $storedEvent];
             })
-            ->eachSpread(function(DomainEvent $event, StoredEvent $storedEvent) {
+            ->eachSpread(function (DomainEvent $event, StoredEvent $storedEvent) {
                 $this->handleImmediately($storedEvent);
 
                 if (method_exists($event, 'tags')) {
@@ -138,7 +137,7 @@ final class Projectionist
 
     public function storeEvent(DomainEvent $event, string $uuid = null): void
     {
-       $this->storeEvents([$event], $uuid);
+        $this->storeEvents([$event], $uuid);
     }
 
     public function handle(StoredEvent $storedEvent): void
@@ -197,10 +196,9 @@ final class Projectionist
     private function callEventHandler(EventHandler $eventHandler, StoredEvent $storedEvent): bool
     {
         try {
-
             $eventHandler->handle($storedEvent);
         } catch (Exception $exception) {
-            if (!$this->config['catch_exceptions']) {
+            if (! $this->config['catch_exceptions']) {
                 throw $exception;
             }
 
@@ -223,8 +221,7 @@ final class Projectionist
         Collection $projectors,
         int $startingFromEventId = 0,
         callable $onEventReplayed = null
-    ): void
-    {
+    ): void {
         $projectors = new EventHandlerCollection($projectors);
 
         $this->isReplaying = true;

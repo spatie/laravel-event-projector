@@ -19,4 +19,3 @@ final class SendMailReactor implements EventHandler
         Mail::to('john@example.com')->send(new MoneyAddedMailable($event->amount, $uuid));
     }
 }
-

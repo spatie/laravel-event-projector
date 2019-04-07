@@ -2,12 +2,10 @@
 
 namespace Spatie\EventProjector\Tests\TestClasses\AggregateRoots\Projectors;
 
-use Exception;
-use Spatie\EventProjector\Models\StoredEvent;
 use Spatie\EventProjector\Projectors\Projector;
 use Spatie\EventProjector\Projectors\ProjectsEvents;
-use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\DomainEvents\MoneyAdded;
 use Spatie\EventProjector\Tests\TestClasses\Models\Account;
+use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\DomainEvents\MoneyAdded;
 
 final class AccountProjector implements Projector
 {
@@ -26,4 +24,3 @@ final class AccountProjector implements Projector
         $account->save();
     }
 }
-

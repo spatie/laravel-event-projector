@@ -2,10 +2,6 @@
 
 namespace Spatie\EventProjector\Projectors;
 
-use Carbon\Carbon;
-use Illuminate\Support\Collection;
-use Spatie\EventProjector\Models\StoredEvent;
-use Spatie\EventProjector\Models\ProjectorStatus;
 use Spatie\EventProjector\EventHandlers\HandlesEvents;
 use Spatie\EventProjector\Exceptions\CouldNotResetProjector;
 

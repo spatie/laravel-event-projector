@@ -3,7 +3,6 @@
 namespace Spatie\EventProjector\Console;
 
 use Illuminate\Console\GeneratorCommand;
-use Symfony\Component\Console\Input\InputOption;
 
 final class MakeAggregateCommand extends GeneratorCommand
 {

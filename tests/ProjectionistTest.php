@@ -6,16 +6,13 @@ use Mockery;
 use Exception;
 use ReflectionException;
 use Illuminate\Support\Facades\Queue;
-use Spatie\EventProjector\Models\StoredEvent;
 use Spatie\EventProjector\HandleDomainEventJob;
 use Spatie\EventProjector\Facades\Projectionist;
-use Spatie\EventProjector\Models\ProjectorStatus;
 use Spatie\EventProjector\Tests\TestClasses\Models\Account;
-use Spatie\EventProjector\Tests\TestClasses\Events\MoneyAddedEvent;
 use Spatie\EventProjector\Tests\TestClasses\Reactors\BrokeReactor;
+use Spatie\EventProjector\Tests\TestClasses\Events\MoneyAddedEvent;
 use Spatie\EventProjector\Tests\TestClasses\Events\MoneySubtractedEvent;
 use Spatie\EventProjector\Tests\TestClasses\Projectors\BalanceProjector;
-use Spatie\EventProjector\Tests\TestClasses\Projectors\UnrelatedProjector;
 use Spatie\EventProjector\Tests\TestClasses\Projectors\MoneyAddedCountProjector;
 use Spatie\EventProjector\Tests\TestClasses\Projectors\ProjectorThatThrowsAnException;
 use Spatie\EventProjector\Tests\TestClasses\Projectors\InvalidProjectorThatDoesNotHaveTheRightEventHandlingMethod;
@@ -155,7 +152,6 @@ final class ProjectionistTest extends TestCase
 
         $this->assertCount(2, Projectionist::getProjectors());
         $this->assertCount(1, Projectionist::getReactors());
-
 
         Projectionist::removeEventHandlers();
 

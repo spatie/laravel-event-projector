@@ -4,11 +4,11 @@ namespace Spatie\EventProjector\Tests;
 
 use Illuminate\Support\Facades\Mail;
 use Spatie\EventProjector\Models\StoredEvent;
+use Spatie\EventProjector\Tests\TestClasses\FakeUuid;
+use Spatie\EventProjector\Tests\TestClasses\Models\Account;
 use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\AccountAggregateRoot;
 use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\DomainEvents\MoneyAdded;
 use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\Mailable\MoneyAddedMailable;
-use Spatie\EventProjector\Tests\TestClasses\FakeUuid;
-use Spatie\EventProjector\Tests\TestClasses\Models\Account;
 
 final class AggregateRootTest extends TestCase
 {
@@ -29,7 +29,7 @@ final class AggregateRootTest extends TestCase
             ->addMoney(100)
             ->persist();
 
-        $storedEvents  = StoredEvent::get();
+        $storedEvents = StoredEvent::get();
         $this->assertCount(1, $storedEvents);
 
         $storedEvent = $storedEvents->first();
@@ -82,7 +82,7 @@ final class AggregateRootTest extends TestCase
         $aggregateRoot->addMoney(123);
         $aggregateRoot->persist();
 
-        Mail::assertSent(MoneyAddedMailable::class, function(MoneyAddedMailable $mailable) {
+        Mail::assertSent(MoneyAddedMailable::class, function (MoneyAddedMailable $mailable) {
             $this->assertEquals($this->uuid, $mailable->uuid);
             $this->assertEquals(123, $mailable->amount);
 
@@ -99,4 +99,3 @@ final class AggregateRootTest extends TestCase
         $this->assertEquals(123, $aggregateRoot->balance);
     }
 }
-

@@ -6,8 +6,6 @@ use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Spatie\EventProjector\Projectionist;
-use Spatie\EventProjector\Console\Concerns\ReplaysEvents;
-use Spatie\EventProjector\Console\Concerns\SelectsProjectors;
 
 class ReplayCommand extends Command
 {
