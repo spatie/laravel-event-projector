@@ -12,12 +12,20 @@ use Spatie\EventProjector\Tests\TestClasses\Models\Account;
 
 final class AggregateRootTest extends TestCase
 {
+    /** @var string */
+    private $uuid;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->uuid = FakeUuid::generate();
+    }
+
     /** @test */
     public function persisting_an_aggregate_root_will_persist_all_events_it_recorded()
     {
-        $uuid = FakeUuid::generate();
-
-        AccountAggregateRoot::retrieve($uuid)
+        AccountAggregateRoot::retrieve($this->uuid)
             ->addMoney(100)
             ->persist();
 
@@ -25,7 +33,7 @@ final class AggregateRootTest extends TestCase
         $this->assertCount(1, $storedEvents);
 
         $storedEvent = $storedEvents->first();
-        $this->assertEquals($uuid, $storedEvent->uuid);
+        $this->assertEquals($this->uuid, $storedEvent->uuid);
 
         $event = $storedEvent->event;
         $this->assertInstanceOf(MoneyAdded::class, $event);
@@ -35,10 +43,8 @@ final class AggregateRootTest extends TestCase
     /** @test */
     public function when_retrieving_an_aggregate_root_all_events_will_be_replayed_to_it()
     {
-        $uuid = FakeUuid::generate();
-
         /** @var \Spatie\EventProjector\Tests\TestClasses\AggregateRoots\AccountAggregateRoot $aggregateRoot */
-        $aggregateRoot = AccountAggregateRoot::retrieve($uuid);
+        $aggregateRoot = AccountAggregateRoot::retrieve($this->uuid);
 
         $aggregateRoot
             ->addMoney(100)
@@ -47,7 +53,7 @@ final class AggregateRootTest extends TestCase
 
         $aggregateRoot->persist();
 
-        $aggregateRoot = AccountAggregateRoot::retrieve($uuid);
+        $aggregateRoot = AccountAggregateRoot::retrieve($this->uuid);
 
         $this->assertEquals(300, $aggregateRoot->balance);
     }
@@ -55,9 +61,7 @@ final class AggregateRootTest extends TestCase
     /** @test */
     public function it_will_register_and_call_projectors()
     {
-        $uuid = FakeUuid::generate();
-
-        $aggregateRoot = AccountAggregateRoot::retrieve($uuid);
+        $aggregateRoot = AccountAggregateRoot::retrieve($this->uuid);
         $aggregateRoot->addMoney(123);
         $aggregateRoot->persist();
 
@@ -66,7 +70,7 @@ final class AggregateRootTest extends TestCase
 
         $account = Account::first();
         $this->assertEquals(123, $account->amount);
-        $this->assertEquals($uuid, $account->uuid);
+        $this->assertEquals($this->uuid, $account->uuid);
     }
 
     /** @test */
@@ -74,18 +78,25 @@ final class AggregateRootTest extends TestCase
     {
         Mail::fake();
 
-        $uuid = FakeUuid::generate();
-
-        $aggregateRoot = AccountAggregateRoot::retrieve($uuid);
+        $aggregateRoot = AccountAggregateRoot::retrieve($this->uuid);
         $aggregateRoot->addMoney(123);
         $aggregateRoot->persist();
 
-        Mail::assertSent(MoneyAddedMailable::class, function(MoneyAddedMailable $mailable) use ($uuid) {
-            $this->assertEquals($uuid, $mailable->uuid);
+        Mail::assertSent(MoneyAddedMailable::class, function(MoneyAddedMailable $mailable) {
+            $this->assertEquals($this->uuid, $mailable->uuid);
             $this->assertEquals(123, $mailable->amount);
 
             return true;
         });
+    }
+
+    /** @test */
+    public function a_recorded_event_immediately_gets_applied()
+    {
+        $aggregateRoot = AccountAggregateRoot::retrieve($this->uuid);
+        $aggregateRoot->addMoney(123);
+
+        $this->assertEquals(123, $aggregateRoot->balance);
     }
 }
 

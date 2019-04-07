@@ -15,7 +15,7 @@ abstract class AggregateRoot
 
     public static function retrieve(string $uuid): AggregateRoot
     {
-        $aggregateRoot =  (new static());
+        $aggregateRoot = (new static());
 
         $aggregateRoot->uuid = $uuid;
 
