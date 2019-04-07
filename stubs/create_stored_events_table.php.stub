@@ -19,9 +19,4 @@ final class CreateStoredEventsTable extends Migration
             $table->index('uuid');
         });
     }
-
-    public function down()
-    {
-        Schema::dropIfExists('stored_events');
-    }
 }

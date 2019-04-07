@@ -5,6 +5,7 @@ namespace Spatie\EventProjector;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Spatie\EventProjector\Console\ListCommand;
+use Spatie\EventProjector\Console\MakeAggregateCommand;
 use Spatie\EventProjector\Console\ResetCommand;
 use Spatie\EventProjector\Console\ReplayCommand;
 use Spatie\EventProjector\Console\RebuildCommand;
@@ -72,12 +73,14 @@ final class EventProjectorServiceProvider extends ServiceProvider
         $this->app->bind('command.event-projector:replay', ReplayCommand::class);
         $this->app->bind('command.make:projector', MakeProjectorCommand::class);
         $this->app->bind('command.make:reactor', MakeReactorCommand::class);
+        $this->app->bind('command.make:aggregate', MakeAggregateCommand::class);
         $this->app->bind('command.make:domain-event', MakeDomainEventCommand::class);
 
         $this->commands([
             'command.event-projector:replay',
             'command.make:projector',
             'command.make:reactor',
+            'command.make:aggregate',
             'command.make:domain-event',
         ]);
     }
