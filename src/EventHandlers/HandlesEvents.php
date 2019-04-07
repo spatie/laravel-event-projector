@@ -30,7 +30,7 @@ trait HandlesEvents
             return app()->call([app($handlerClassOrMethod), '__invoke'], $parameters);
         }
 
-        if (!method_exists($this, $handlerClassOrMethod)) {
+        if (! method_exists($this, $handlerClassOrMethod)) {
             throw InvalidEventHandler::eventHandlingMethodDoesNotExist($this, $storedEvent->event, $handlerClassOrMethod);
         }
 
@@ -47,7 +47,7 @@ trait HandlesEvents
         $handlesEvents = collect($this->handlesEvents ?? [])
             ->mapWithKeys(function (string $handlerMethod, $eventClass) {
                 if (is_numeric($eventClass)) {
-                    return [$handlerMethod => 'on' . ucfirst(class_basename($handlerMethod))];
+                    return [$handlerMethod => 'on'.ucfirst(class_basename($handlerMethod))];
                 }
 
                 return [$eventClass => $handlerMethod];

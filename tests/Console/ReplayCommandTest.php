@@ -9,15 +9,13 @@ use Illuminate\Support\Facades\Artisan;
 use Spatie\EventProjector\Tests\TestCase;
 use Spatie\EventProjector\Models\StoredEvent;
 use Spatie\EventProjector\Facades\Projectionist;
-use Spatie\EventProjector\Models\ProjectorStatus;
 use Spatie\EventProjector\Events\FinishedEventReplay;
 use Spatie\EventProjector\Events\StartingEventReplay;
 use Spatie\EventProjector\Tests\TestClasses\Models\Account;
-use Spatie\EventProjector\Projectionist as BoundProjectionist;
-use Spatie\EventProjector\Tests\TestClasses\Events\MoneyAddedEvent;
 use Spatie\EventProjector\Tests\TestClasses\Reactors\BrokeReactor;
-use Spatie\EventProjector\Tests\TestClasses\Events\MoneySubtractedEvent;
+use Spatie\EventProjector\Tests\TestClasses\Events\MoneyAddedEvent;
 use Spatie\EventProjector\Tests\TestClasses\Mailables\AccountBroke;
+use Spatie\EventProjector\Tests\TestClasses\Events\MoneySubtractedEvent;
 use Spatie\EventProjector\Tests\TestClasses\Projectors\BalanceProjector;
 
 final class ReplayCommandTest extends TestCase
@@ -43,7 +41,7 @@ final class ReplayCommandTest extends TestCase
     {
         Event::fake([FinishedEventReplay::class, StartingEventReplay::class]);
 
-        $projector = Mockery::mock(BalanceProjector::class . '[onMoneyAdded]');
+        $projector = Mockery::mock(BalanceProjector::class.'[onMoneyAdded]');
 
         $projector->shouldReceive('onMoneyAdded')->andReturnNull()->times(3);
 
@@ -52,7 +50,7 @@ final class ReplayCommandTest extends TestCase
         Event::assertNotDispatched(StartingEventReplay::class);
         Event::assertNotDispatched(FinishedEventReplay::class);
 
-        $this->artisan('event-projector:replay ' . get_class($projector));
+        $this->artisan('event-projector:replay '.get_class($projector));
 
         Event::assertDispatched(StartingEventReplay::class);
         Event::assertDispatched(FinishedEventReplay::class);
@@ -65,7 +63,7 @@ final class ReplayCommandTest extends TestCase
 
         $this->artisan('event-projector:replay')
             ->expectsQuestion('Are you sure you want to replay events to all projectors?', 'Y')
-            ->expectsOutput("Replaying 3 events...")
+            ->expectsOutput('Replaying 3 events...')
             ->assertExitCode(0);
     }
 
@@ -77,7 +75,7 @@ final class ReplayCommandTest extends TestCase
         Projectionist::addProjector($projectorClass);
 
         $this->artisan('event-projector:replay', ['projector' => [BalanceProjector::class], '--from' => 2])
-            ->expectsOutput("Replaying 2 events...")
+            ->expectsOutput('Replaying 2 events...')
             ->assertExitCode(0);
     }
 
@@ -104,7 +102,7 @@ final class ReplayCommandTest extends TestCase
     /** @test */
     public function it_will_call_certain_methods_on_the_projector_when_replaying_events()
     {
-        $projector = Mockery::mock(BalanceProjector::class . '[onStartingEventReplay, onFinishedEventReplay]');
+        $projector = Mockery::mock(BalanceProjector::class.'[onStartingEventReplay, onFinishedEventReplay]');
 
         Projectionist::addProjector($projector);
 

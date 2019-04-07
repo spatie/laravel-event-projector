@@ -14,4 +14,3 @@ final class MoneyAdded implements DomainEvent
         $this->amount = $amount;
     }
 }
-

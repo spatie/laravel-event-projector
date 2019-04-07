@@ -4,15 +4,12 @@ namespace Spatie\EventProjector;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
-use Spatie\EventProjector\Console\ListCommand;
-use Spatie\EventProjector\Console\MakeAggregateCommand;
-use Spatie\EventProjector\Console\ResetCommand;
 use Spatie\EventProjector\Console\ReplayCommand;
-use Spatie\EventProjector\Console\RebuildCommand;
 use Spatie\EventProjector\Console\MakeReactorCommand;
-use Spatie\EventProjector\EventSerializers\EventSerializer;
+use Spatie\EventProjector\Console\MakeAggregateCommand;
 use Spatie\EventProjector\Console\MakeProjectorCommand;
 use Spatie\EventProjector\Console\MakeDomainEventCommand;
+use Spatie\EventProjector\EventSerializers\EventSerializer;
 
 final class EventProjectorServiceProvider extends ServiceProvider
 {

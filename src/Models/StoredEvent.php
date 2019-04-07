@@ -4,9 +4,9 @@ namespace Spatie\EventProjector\Models;
 
 use Exception;
 use Carbon\Carbon;
+use Spatie\EventProjector\DomainEvent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Spatie\EventProjector\DomainEvent;
 use Spatie\SchemalessAttributes\SchemalessAttributes;
 use Spatie\EventProjector\Exceptions\InvalidStoredEvent;
 use Spatie\EventProjector\EventSerializers\EventSerializer;

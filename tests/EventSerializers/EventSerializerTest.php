@@ -2,7 +2,6 @@
 
 namespace Spatie\EventProjector\Tests\EventSerializers;
 
-use Ramsey\Uuid\Uuid;
 use Spatie\EventProjector\Tests\TestCase;
 use Spatie\EventProjector\EventSerializers\EventSerializer;
 use Spatie\EventProjector\Tests\TestClasses\Models\Account;
@@ -19,7 +18,6 @@ final class EventSerializerTest extends TestCase
         parent::setUp();
 
         $this->eventSerializer = app(EventSerializer::class);
-
     }
 
     /** @test */
