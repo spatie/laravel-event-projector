@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-event-projector` will be documented in this file
 
+## 2.0.0 - 2019-04-XX
+
+- added support for aggregates
+- support a new `handleEvent` property for event handlers
+- renamed `StoredEvent` to `DomainEvent`
+- removed all support for projector statusses
+- the rebuild has been removed. It's been replace by the `--from` flag on event replay
 
 ## 1.3.2 - 2018-02-27
 
@@ -9,7 +16,7 @@ All notable changes to `laravel-event-projector` will be documented in this file
 
 # 1.3.1 - 2018-12-06
 
-- fixed missing `use` statement in `EventHandlerCollection`
+- fix missing `use` statement in `EventHandlerCollection`
 
 ## 1.3.0 - 2018-11-19
 
@@ -17,7 +24,7 @@ All notable changes to `laravel-event-projector` will be documented in this file
 
 ## 1.2.0 - 2018-10-30
 
-- added `isProjecting`
+- add `isProjecting`
 
 ## 1.1.2 - 2018-09-27
 
