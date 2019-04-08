@@ -114,32 +114,6 @@ final class Projectionist
         return $this->reactors->all();
     }
 
-    public function storeEvents(array $events, string $uuid = null): void
-    {
-        collect($events)
-            ->map(function (ShouldBeStored $domainEvent) use ($uuid) {
-                $storedEvent = $this->getStoredEventClass()::createForEvent($domainEvent, $uuid);
-
-                return [$domainEvent, $storedEvent];
-            })
-            ->eachSpread(function (ShouldBeStored $event, StoredEvent $storedEvent) {
-                $this->handleImmediately($storedEvent);
-
-                if (method_exists($event, 'tags')) {
-                    $tags = $event->tags();
-                }
-
-                $storedEventJob = $this->getStoredEventJob()::createForEvent($storedEvent, $tags ?? []);
-
-                dispatch($storedEventJob->onQueue($this->config['queue']));
-            });
-    }
-
-    public function storeEvent(ShouldBeStored $event, string $uuid = null): void
-    {
-        $this->storeEvents([$event], $uuid);
-    }
-
     public function handle(StoredEvent $storedEvent): void
     {
         $projectors = $this->projectors
@@ -263,10 +237,5 @@ final class Projectionist
     private function getStoredEventClass(): string
     {
         return config('event-projector.stored_event_model');
-    }
-
-    private function getStoredEventJob(): string
-    {
-        return config('event-projector.stored_event_job');
     }
 }

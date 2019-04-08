@@ -2,6 +2,7 @@
 
 namespace Spatie\EventProjector;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Spatie\EventProjector\Models\StoredEvent;
 
@@ -33,7 +34,7 @@ abstract class AggregateRoot
 
     public function persist(): AggregateRoot
     {
-        $this->getProjectionist()->storeEvents($this->getAndClearRecoredEvents(), $this->aggregate_uuid);
+        $this->getStoredEventModel()->storeEvents($this->getAndClearRecoredEvents(), $this->aggregate_uuid);
 
         return $this;
     }
@@ -69,8 +70,11 @@ abstract class AggregateRoot
         }
     }
 
-    private function getProjectionist(): Projectionist
+
+    private function getStoredEventModel(): Model
     {
-        return app(Projectionist::class);
+        $storedEventModelClass = config('event-projector.stored_event_model');
+
+        return new $storedEventModelClass;
     }
 }

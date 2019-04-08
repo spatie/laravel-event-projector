@@ -2,6 +2,8 @@
 
 namespace Spatie\EventProjector;
 
+use Illuminate\Database\Eloquent\Model;
+
 final class EventSubscriber
 {
     /** @var \Spatie\EventProjector\Projectionist */
@@ -24,7 +26,7 @@ final class EventSubscriber
 
     public function handle(string $eventName, $payload): void
     {
-        if (! $this->isDomainEvent($eventName)) {
+        if (! $this->shouldBeStored($eventName)) {
             return;
         }
 
@@ -33,10 +35,10 @@ final class EventSubscriber
 
     public function storeEvent(ShouldBeStored $event): void
     {
-        $this->projectionist->storeEvent($event);
+        $this->storedEventModel()->storeEvent($event);
     }
 
-    private function isDomainEvent($event): bool
+    private function shouldBeStored($event): bool
     {
         if (! class_exists($event)) {
             return false;
@@ -44,4 +46,12 @@ final class EventSubscriber
 
         return is_subclass_of($event, ShouldBeStored::class);
     }
+
+    private function storedEventModel(): Model
+    {
+        $storedEventModelClass = config('event-projector.stored_event_model');
+
+        return new $storedEventModelClass;
+    }
+
 }
