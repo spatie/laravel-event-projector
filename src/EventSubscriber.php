@@ -35,7 +35,7 @@ final class EventSubscriber
 
     public function storeEvent(ShouldBeStored $event): void
     {
-        $this->storedEventModel()->storeEvent($event);
+        call_user_func([config('event-projector.stored_event_model'), 'store'], $event);
     }
 
     private function shouldBeStored($event): bool
@@ -45,12 +45,5 @@ final class EventSubscriber
         }
 
         return is_subclass_of($event, ShouldBeStored::class);
-    }
-
-    private function storedEventModel(): Model
-    {
-        $storedEventModelClass = config('event-projector.stored_event_model');
-
-        return new $storedEventModelClass;
     }
 }

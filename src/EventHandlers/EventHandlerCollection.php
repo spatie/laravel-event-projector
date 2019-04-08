@@ -4,7 +4,6 @@ namespace Spatie\EventProjector\EventHandlers;
 
 use Illuminate\Support\Collection;
 use Spatie\EventProjector\Models\StoredEvent;
-use Spatie\EventProjector\Exceptions\InvalidEventHandler;
 
 final class EventHandlerCollection
 {
@@ -20,25 +19,9 @@ final class EventHandlerCollection
         }
     }
 
-    public function add($eventHandler): void
+    public function add(EventHandler $eventHandler): void
     {
-        if (is_string($eventHandler)) {
-            if ($this->eventHandlers->has($eventHandler)) {
-                return;
-            }
-
-            $eventHandler = app($eventHandler);
-        }
-
-        if (! $eventHandler instanceof EventHandler) {
-            throw InvalidEventHandler::notAnEventHandler($eventHandler);
-        }
-
-        $className = get_class($eventHandler);
-
-        if (! $this->eventHandlers->has($className)) {
-            $this->eventHandlers[$className] = $eventHandler;
-        }
+        $this->eventHandlers[get_class($eventHandler)] = $eventHandler;
     }
 
     public function all(): Collection
@@ -62,11 +45,6 @@ final class EventHandlerCollection
             ->each(function (EventHandler $eventHandler) use ($method) {
                 return app()->call([$eventHandler, $method]);
             });
-    }
-
-    public function removeAll(): void
-    {
-        $this->eventHandlers = collect();
     }
 
     public function remove(array $eventHandlerClassNames): void
