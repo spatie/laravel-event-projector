@@ -45,7 +45,7 @@ return [
      * can change this to a class of your own. The only restriction is that
      * it should extend \Spatie\EventProjector\HandleDomainEventJob.
      */
-    'stored_event_job' => \Spatie\EventProjector\HandleDomainEventJob::class,
+    'stored_event_job' => \Spatie\EventProjector\HandleStoredEventJob::class,
 
     /*
      * This class is responsible for serializing events. By default an event will be serialized

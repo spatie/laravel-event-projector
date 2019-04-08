@@ -4,7 +4,7 @@ namespace Spatie\EventProjector\Models;
 
 use Exception;
 use Carbon\Carbon;
-use Spatie\EventProjector\DomainEvent;
+use Spatie\EventProjector\ShouldBeStored;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\SchemalessAttributes\SchemalessAttributes;
@@ -22,10 +22,10 @@ class StoredEvent extends Model
         'meta_data' => 'array',
     ];
 
-    public static function createForEvent(DomainEvent $event, string $uuid = null): StoredEvent
+    public static function createForEvent(ShouldBeStored $event, string $uuid = null): StoredEvent
     {
         $storedEvent = new static();
-        $storedEvent->uuid = $uuid;
+        $storedEvent->aggregate_uuid = $uuid;
         $storedEvent->event_class = get_class($event);
         $storedEvent->attributes['event_properties'] = app(EventSerializer::class)->serialize(clone $event);
         $storedEvent->meta_data = [];
@@ -36,7 +36,7 @@ class StoredEvent extends Model
         return $storedEvent;
     }
 
-    public function getEventAttribute(): DomainEvent
+    public function getEventAttribute(): ShouldBeStored
     {
         try {
             $event = app(EventSerializer::class)->deserialize(
@@ -57,7 +57,7 @@ class StoredEvent extends Model
 
     public function scopeUuid(Builder $query, string $uuid)
     {
-        $query->where('uuid', $uuid);
+        $query->where('aggregate_uuid', $uuid);
     }
 
     public function getMetaDataAttribute(): SchemalessAttributes

@@ -117,12 +117,12 @@ final class Projectionist
     public function storeEvents(array $events, string $uuid = null): void
     {
         collect($events)
-            ->map(function (DomainEvent $domainEvent) use ($uuid) {
+            ->map(function (ShouldBeStored $domainEvent) use ($uuid) {
                 $storedEvent = $this->getStoredEventClass()::createForEvent($domainEvent, $uuid);
 
                 return [$domainEvent, $storedEvent];
             })
-            ->eachSpread(function (DomainEvent $event, StoredEvent $storedEvent) {
+            ->eachSpread(function (ShouldBeStored $event, StoredEvent $storedEvent) {
                 $this->handleImmediately($storedEvent);
 
                 if (method_exists($event, 'tags')) {
@@ -135,7 +135,7 @@ final class Projectionist
             });
     }
 
-    public function storeEvent(DomainEvent $event, string $uuid = null): void
+    public function storeEvent(ShouldBeStored $event, string $uuid = null): void
     {
         $this->storeEvents([$event], $uuid);
     }

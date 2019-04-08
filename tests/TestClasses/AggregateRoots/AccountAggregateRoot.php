@@ -9,14 +9,6 @@ use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\Projectors\AccountPro
 
 final class AccountAggregateRoot extends AggregateRoot
 {
-    protected $projectors = [
-        AccountProjector::class,
-    ];
-
-    protected $reactors = [
-        SendMailReactor::class,
-    ];
-
     public $balance = 0;
 
     public function addMoney(int $amount): self

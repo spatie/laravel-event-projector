@@ -2,9 +2,9 @@
 
 namespace Spatie\EventProjector\Tests\TestClasses\Events;
 
-use Spatie\EventProjector\DomainEvent;
+use Spatie\EventProjector\ShouldBeStored;
 
-final class EventWithoutSerializedModels implements DomainEvent
+final class EventWithoutSerializedModels implements ShouldBeStored
 {
     /** @var string */
     public $value;

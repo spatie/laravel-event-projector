@@ -2,9 +2,9 @@
 
 namespace Spatie\EventProjector\Tests\TestClasses\AggregateRoots\DomainEvents;
 
-use Spatie\EventProjector\DomainEvent;
+use Spatie\EventProjector\ShouldBeStored;
 
-final class MoneyAdded implements DomainEvent
+final class MoneyAdded implements ShouldBeStored
 {
     /** @var int */
     public $amount;

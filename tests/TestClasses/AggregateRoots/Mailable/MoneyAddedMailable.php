@@ -16,7 +16,7 @@ final class MoneyAddedMailable extends Mailable
     {
         $this->amount = $amount;
 
-        $this->uuid = $uuid;
+        $this->aggregate_uuid = $uuid;
     }
 
     public function build()

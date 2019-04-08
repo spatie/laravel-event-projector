@@ -31,7 +31,7 @@ final class EventSubscriber
         $this->storeEvent($payload[0]);
     }
 
-    public function storeEvent(DomainEvent $event): void
+    public function storeEvent(ShouldBeStored $event): void
     {
         $this->projectionist->storeEvent($event);
     }
@@ -42,6 +42,6 @@ final class EventSubscriber
             return false;
         }
 
-        return is_subclass_of($event, DomainEvent::class);
+        return is_subclass_of($event, ShouldBeStored::class);
     }
 }

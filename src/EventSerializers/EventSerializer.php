@@ -2,11 +2,11 @@
 
 namespace Spatie\EventProjector\EventSerializers;
 
-use Spatie\EventProjector\DomainEvent;
+use Spatie\EventProjector\ShouldBeStored;
 
 interface EventSerializer
 {
-    public function serialize(DomainEvent $event): string;
+    public function serialize(ShouldBeStored $event): string;
 
-    public function deserialize(string $eventClass, string $json): DomainEvent;
+    public function deserialize(string $eventClass, string $json): ShouldBeStored;
 }

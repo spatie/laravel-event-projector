@@ -2,6 +2,6 @@
 
 namespace Spatie\EventProjector;
 
-interface DomainEvent
+interface ShouldBeStored
 {
 }

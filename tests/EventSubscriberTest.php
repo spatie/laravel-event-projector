@@ -5,7 +5,7 @@ namespace Spatie\EventProjector\Tests;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Mail;
 use Spatie\EventProjector\Models\StoredEvent;
-use Spatie\EventProjector\HandleDomainEventJob;
+use Spatie\EventProjector\HandleStoredEventJob;
 use Spatie\EventProjector\Facades\Projectionist;
 use Spatie\EventProjector\Tests\TestClasses\Models\Account;
 use Spatie\EventProjector\Tests\TestClasses\Reactors\BrokeReactor;
@@ -118,7 +118,7 @@ final class EventSubscriberTest extends TestCase
 
         event(new MoneyAddedEvent($this->account, 1234));
 
-        Bus::assertDispatched(HandleDomainEventJob::class, function (HandleDomainEventJob $job) {
+        Bus::assertDispatched(HandleStoredEventJob::class, function (HandleStoredEventJob $job) {
             return get_class($job->storedEvent->event) === MoneyAddedEvent::class;
         });
 

@@ -3,10 +3,10 @@
 namespace Spatie\EventProjector\Tests\TestClasses\Events;
 
 use Illuminate\Queue\SerializesModels;
-use Spatie\EventProjector\DomainEvent;
+use Spatie\EventProjector\ShouldBeStored;
 use Spatie\EventProjector\Tests\TestClasses\Models\Account;
 
-final class MoneySubtractedEvent implements DomainEvent
+final class MoneySubtractedEvent implements ShouldBeStored
 {
     use SerializesModels;
 

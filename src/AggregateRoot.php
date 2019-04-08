@@ -17,12 +17,12 @@ abstract class AggregateRoot
     {
         $aggregateRoot = (new static());
 
-        $aggregateRoot->uuid = $uuid;
+        $aggregateRoot->aggregate_uuid = $uuid;
 
         return $aggregateRoot->reconstituteFromEvents();
     }
 
-    public function recordThat(DomainEvent $domainEvent): AggregateRoot
+    public function recordThat(ShouldBeStored $domainEvent): AggregateRoot
     {
         $this->recordedEvents[] = $domainEvent;
 
@@ -33,9 +33,7 @@ abstract class AggregateRoot
 
     public function persist(): AggregateRoot
     {
-        $this->registerEventHandlers();
-
-        $this->getProjectionist()->storeEvents($this->getAndClearRecoredEvents(), $this->uuid);
+        $this->getProjectionist()->storeEvents($this->getAndClearRecoredEvents(), $this->aggregate_uuid);
 
         return $this;
     }
@@ -51,14 +49,14 @@ abstract class AggregateRoot
 
     private function reconstituteFromEvents(): AggregateRoot
     {
-        StoredEvent::uuid($this->uuid)->each(function (StoredEvent $storedEvent) {
+        StoredEvent::uuid($this->aggregate_uuid)->each(function (StoredEvent $storedEvent) {
             $this->apply($storedEvent->event);
         });
 
         return $this;
     }
 
-    private function apply(DomainEvent $event): void
+    private function apply(ShouldBeStored $event): void
     {
         $classBaseName = class_basename($event);
 
@@ -74,12 +72,5 @@ abstract class AggregateRoot
     private function getProjectionist(): Projectionist
     {
         return app(Projectionist::class);
-    }
-
-    private function registerEventHandlers(): void
-    {
-        $this->getProjectionist()
-            ->addProjectors($this->projectors ?? [])
-            ->addReactors($this->reactors ?? []);
     }
 }

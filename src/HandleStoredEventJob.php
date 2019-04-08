@@ -8,7 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Spatie\EventProjector\Models\StoredEvent;
 
-final class HandleDomainEventJob implements ShouldQueue
+final class HandleStoredEventJob implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels;
 
