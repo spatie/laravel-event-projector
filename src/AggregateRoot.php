@@ -34,7 +34,11 @@ abstract class AggregateRoot
 
     public function persist(): AggregateRoot
     {
-        $this->getStoredEventModel()->storeEvents($this->getAndClearRecoredEvents(), $this->aggregate_uuid);
+        call_user_func(
+            [$this->getStoredEventModel(), 'storeMany'],
+            $this->getAndClearRecoredEvents(),
+            $this->aggregate_uuid
+        );
 
         return $this;
     }
@@ -70,10 +74,8 @@ abstract class AggregateRoot
         }
     }
 
-    private function getStoredEventModel(): Model
+    private function getStoredEventModel(): string
     {
-        $storedEventModelClass = config('event-projector.stored_event_model');
-
-        return new $storedEventModelClass;
+        return config('event-projector.stored_event_model');
     }
 }

@@ -2,15 +2,15 @@
 
 namespace Spatie\EventProjector\Models;
 
-use Exception;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
-use Spatie\EventProjector\Projectionist;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Spatie\EventProjector\EventSerializers\EventSerializer;
+use Spatie\EventProjector\Exceptions\InvalidStoredEvent;
+use Spatie\EventProjector\Facades\Projectionist;
 use Spatie\EventProjector\ShouldBeStored;
 use Spatie\SchemalessAttributes\SchemalessAttributes;
-use Spatie\EventProjector\Exceptions\InvalidStoredEvent;
-use Spatie\EventProjector\EventSerializers\EventSerializer;
 
 class StoredEvent extends Model
 {
@@ -71,7 +71,7 @@ class StoredEvent extends Model
         return SchemalessAttributes::scopeWithSchemalessAttributes('meta_data');
     }
 
-    public function storeEvents(array $events, string $uuid = null): void
+    public static function storeMany(array $events, string $uuid = null): void
     {
         collect($events)
             ->map(function (ShouldBeStored $domainEvent) use ($uuid) {
@@ -80,30 +80,24 @@ class StoredEvent extends Model
                 return [$domainEvent, $storedEvent];
             })
             ->eachSpread(function (ShouldBeStored $event, StoredEvent $storedEvent) {
-                $this->getProjectionist()->handleImmediately($storedEvent);
+                Projectionist::handleWithSyncProjectors($storedEvent);
 
                 if (method_exists($event, 'tags')) {
                     $tags = $event->tags();
                 }
 
-                $storedEventJob = $this->getStoredEventJob()::createForEvent($storedEvent, $tags ?? []);
+                $storedEventJob = call_user_func(
+                    [config('event-projector.stored_event_job'), 'createForEvent'],
+                    $storedEvent,
+                    $tags ?? []
+                );
 
-                dispatch($storedEventJob->onQueue($this->config['queue']));
+                dispatch($storedEventJob->onQueue(config('event-projector.queue')));
             });
     }
 
-    public function storeEvent(ShouldBeStored $event, string $uuid = null): void
+    public static function store(ShouldBeStored $event, string $uuid = null): void
     {
-        $this->storeEvents([$event], $uuid);
-    }
-
-    private function getStoredEventJob(): string
-    {
-        return config('event-projector.stored_event_job');
-    }
-
-    private function getProjectionist(): Projectionist
-    {
-        return app(Projectionist::class);
+        static::storeMany([$event], $uuid);
     }
 }

@@ -154,7 +154,7 @@ final class Projectionist
         );
     }
 
-    public function handleImmediately(StoredEvent $storedEvent): void
+    public function handleWithSyncProjectors(StoredEvent $storedEvent): void
     {
         $projectors = $this->projectors
             ->forEvent($storedEvent)
