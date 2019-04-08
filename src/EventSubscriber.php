@@ -2,8 +2,6 @@
 
 namespace Spatie\EventProjector;
 
-use Illuminate\Database\Eloquent\Model;
-
 final class EventSubscriber
 {
     /** @var \Spatie\EventProjector\Projectionist */

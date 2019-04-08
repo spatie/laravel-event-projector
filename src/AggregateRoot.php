@@ -3,7 +3,6 @@
 namespace Spatie\EventProjector;
 
 use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Model;
 use Spatie\EventProjector\Models\StoredEvent;
 
 abstract class AggregateRoot
