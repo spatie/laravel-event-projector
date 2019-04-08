@@ -21,6 +21,7 @@ final class HandleStoredEventJob implements ShouldQueue
     public function __construct(StoredEvent $storedEvent, array $tags)
     {
         $this->storedEvent = $storedEvent;
+
         $this->tags = $tags;
     }
 
@@ -31,13 +32,9 @@ final class HandleStoredEventJob implements ShouldQueue
 
     public function tags(): array
     {
-        if (empty($this->tags)) {
-            return [
-                $this->storedEvent['event_class'],
-            ];
-        }
-
-        return $this->tags;
+        return empty($this->tags)
+            ? $this->storedEvent['event_class']
+            : $this->tags;
     }
 
     public static function createForEvent(StoredEvent $event, array $tags): self
