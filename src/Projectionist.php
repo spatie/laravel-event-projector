@@ -16,9 +16,6 @@ use Spatie\EventProjector\Events\EventHandlerFailedHandlingEvent;
 
 final class Projectionist
 {
-    /** @var array */
-    private $config;
-
     /** @var \Spatie\EventProjector\EventHandlers\EventHandlerCollection */
     private $projectors;
 
@@ -26,18 +23,28 @@ final class Projectionist
     private $reactors;
 
     /** @var bool */
+    private $catchExceptions;
+
+    /** @var bool */
+    private $replayChunkSize;
+
+    /** @var string */
+    private $storedEventClass;
+
+    /** @var bool */
     private $isProjecting = false;
 
     /** @var bool */
     private $isReplaying = false;
 
-    public function __construct(array $config = [])
+    public function __construct(array $config)
     {
-        $this->config = $config;
-
         $this->projectors = new EventHandlerCollection();
-
         $this->reactors = new EventHandlerCollection();
+
+        $this->catchExceptions = $config['catch_exceptions'];
+        $this->replayChunkSize = $config['replay_chunk_size'];
+        $this->storedEventClass = $config['stored_event_model'];
     }
 
     public function addProjector($projector): Projectionist
@@ -172,7 +179,7 @@ final class Projectionist
         try {
             $eventHandler->handle($storedEvent);
         } catch (Exception $exception) {
-            if (! $this->config['catch_exceptions']) {
+            if (! $this->catchExceptions) {
                 throw $exception;
             }
 
@@ -214,7 +221,7 @@ final class Projectionist
 
         $this->getStoredEventClass()::query()
             ->startingFrom($startingFromEventId ?? 0)
-            ->chunk($this->config['replay_chunk_size'], function (Collection $storedEvents) use ($projectors, $onEventReplayed) {
+            ->chunk($this->replayChunkSize, function (Collection $storedEvents) use ($projectors, $onEventReplayed) {
                 $storedEvents->each(function (StoredEvent $storedEvent) use ($projectors, $onEventReplayed) {
                     $this->applyStoredEventToProjectors(
                         $storedEvent,
@@ -236,6 +243,6 @@ final class Projectionist
 
     private function getStoredEventClass(): string
     {
-        return config('event-projector.stored_event_model');
+        return $this->storedEventClass;
     }
 }
