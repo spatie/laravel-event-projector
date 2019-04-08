@@ -2,15 +2,15 @@
 
 namespace Spatie\EventProjector\Models;
 
-use Carbon\Carbon;
 use Exception;
-use Illuminate\Database\Eloquent\Builder;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\EventProjector\EventSerializers\EventSerializer;
-use Spatie\EventProjector\Exceptions\InvalidStoredEvent;
-use Spatie\EventProjector\Facades\Projectionist;
+use Illuminate\Database\Eloquent\Builder;
 use Spatie\EventProjector\ShouldBeStored;
+use Spatie\EventProjector\Facades\Projectionist;
 use Spatie\SchemalessAttributes\SchemalessAttributes;
+use Spatie\EventProjector\Exceptions\InvalidStoredEvent;
+use Spatie\EventProjector\EventSerializers\EventSerializer;
 
 class StoredEvent extends Model
 {
