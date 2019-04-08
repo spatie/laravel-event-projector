@@ -3,7 +3,7 @@
 namespace Spatie\EventProjector\Tests\TestClasses\AggregateRoots;
 
 use Spatie\EventProjector\AggregateRoot;
-use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\DomainEvents\MoneyAdded;
+use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\StorableEvents\MoneyAdded;
 use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\Reactors\SendMailReactor;
 use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\Projectors\AccountProjector;
 

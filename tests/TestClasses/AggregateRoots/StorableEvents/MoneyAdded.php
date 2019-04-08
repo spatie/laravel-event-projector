@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\EventProjector\Tests\TestClasses\AggregateRoots\DomainEvents;
+namespace Spatie\EventProjector\Tests\TestClasses\AggregateRoots\StorableEvents;
 
 use Spatie\EventProjector\ShouldBeStored;
 

@@ -7,7 +7,7 @@ use Spatie\EventProjector\Models\StoredEvent;
 use Spatie\EventProjector\Tests\TestClasses\FakeUuid;
 use Spatie\EventProjector\Tests\TestClasses\Models\Account;
 use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\AccountAggregateRoot;
-use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\DomainEvents\MoneyAdded;
+use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\StorableEvents\MoneyAdded;
 use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\Mailable\MoneyAddedMailable;
 
 final class AggregateRootTest extends TestCase
