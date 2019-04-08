@@ -9,7 +9,7 @@ use Spatie\EventProjector\Models\StoredEvent;
 abstract class AggregateRoot
 {
     /** @var string */
-    private $uuid;
+    private $aggregate_uuid;
 
     /** @var array */
     private $recordedEvents = [];
@@ -35,7 +35,7 @@ abstract class AggregateRoot
     public function persist(): AggregateRoot
     {
         call_user_func(
-            [$this->getStoredEventModel(), 'storeMany'],
+            [config('event-projector.stored_event_model'), 'storeMany'],
             $this->getAndClearRecoredEvents(),
             $this->aggregate_uuid
         );
@@ -72,10 +72,5 @@ abstract class AggregateRoot
         if (method_exists($this, $applyingMethodName)) {
             $this->$applyingMethodName($event);
         }
-    }
-
-    private function getStoredEventModel(): string
-    {
-        return config('event-projector.stored_event_model');
     }
 }
