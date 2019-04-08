@@ -62,12 +62,13 @@ final class Projectionist
         return $this;
     }
 
-    public function removeEventHandlers($eventHandlers = null): Projectionist
+    public function withoutEventHandlers(array $eventHandlers = null): Projectionist
     {
         if (is_null($eventHandlers)) {
-            $this->projectors->removeAll();
+            $this->projectors = new EventHandlerCollection();
+            $this->reactors = new EventHandlerCollection();
 
-            $this->reactors->removeAll();
+            return $this;
         }
 
         $eventHandlers = Arr::wrap($eventHandlers);
@@ -77,6 +78,11 @@ final class Projectionist
         $this->reactors->remove($eventHandlers);
 
         return $this;
+    }
+
+    public function withoutEventHandler(string $eventHandler): Projectionist
+    {
+        return $this->withoutEventHandlers([$eventHandler]);
     }
 
     public function addProjectors(array $projectors): Projectionist

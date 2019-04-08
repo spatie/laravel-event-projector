@@ -153,7 +153,7 @@ final class ProjectionistTest extends TestCase
         $this->assertCount(2, Projectionist::getProjectors());
         $this->assertCount(1, Projectionist::getReactors());
 
-        Projectionist::removeEventHandlers();
+        Projectionist::withoutEventHandlers();
 
         $this->assertCount(0, Projectionist::getProjectors());
         $this->assertCount(0, Projectionist::getReactors());
@@ -169,13 +169,13 @@ final class ProjectionistTest extends TestCase
         $this->assertCount(2, Projectionist::getProjectors());
         $this->assertCount(1, Projectionist::getReactors());
 
-        Projectionist::removeEventHandlers([MoneyAddedCountProjector::class, BrokeReactor::class]);
+        Projectionist::withoutEventHandlers([MoneyAddedCountProjector::class, BrokeReactor::class]);
 
         $this->assertCount(1, Projectionist::getProjectors());
         $this->assertEquals(BalanceProjector::class, get_class(Projectionist::getProjectors()->first()));
         $this->assertCount(0, Projectionist::getReactors());
 
-        Projectionist::removeEventHandlers(BalanceProjector::class);
+        Projectionist::withoutEventHandler(BalanceProjector::class);
         $this->assertCount(0, Projectionist::getProjectors());
     }
 }

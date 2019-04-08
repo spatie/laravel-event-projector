@@ -47,11 +47,6 @@ final class EventHandlerCollection
             });
     }
 
-    public function removeAll(): void
-    {
-        $this->eventHandlers = collect();
-    }
-
     public function remove(array $eventHandlerClassNames): void
     {
         $this->eventHandlers = $this->eventHandlers
