@@ -8,7 +8,7 @@ use Spatie\EventProjector\Console\ReplayCommand;
 use Spatie\EventProjector\Console\MakeReactorCommand;
 use Spatie\EventProjector\Console\MakeAggregateCommand;
 use Spatie\EventProjector\Console\MakeProjectorCommand;
-use Spatie\EventProjector\Console\MakeDomainEventCommand;
+use Spatie\EventProjector\Console\MakeStorableEventCommand;
 use Spatie\EventProjector\EventSerializers\EventSerializer;
 
 final class EventProjectorServiceProvider extends ServiceProvider
@@ -71,7 +71,7 @@ final class EventProjectorServiceProvider extends ServiceProvider
         $this->app->bind('command.make:projector', MakeProjectorCommand::class);
         $this->app->bind('command.make:reactor', MakeReactorCommand::class);
         $this->app->bind('command.make:aggregate', MakeAggregateCommand::class);
-        $this->app->bind('command.make:domain-event', MakeDomainEventCommand::class);
+        $this->app->bind('command.make:domain-event', MakeStorableEventCommand::class);
 
         $this->commands([
             'command.event-projector:replay',
