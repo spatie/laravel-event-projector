@@ -14,8 +14,8 @@ final class SendMailReactor implements EventHandler
 
     protected $handleEvent = MoneyAdded::class;
 
-    public function __invoke(MoneyAdded $event, string $uuid)
+    public function __invoke(MoneyAdded $event, string $aggregateUuid)
     {
-        Mail::to('john@example.com')->send(new MoneyAddedMailable($event->amount, $uuid));
+        Mail::to('john@example.com')->send(new MoneyAddedMailable($event->amount, $aggregateUuid));
     }
 }

@@ -10,13 +10,13 @@ final class MoneyAddedMailable extends Mailable
     public $amount;
 
     /** @var string */
-    public $uuid;
+    public $aggregateUuid;
 
-    public function __construct(int $amount, string $uuid)
+    public function __construct(int $amount, string $aggregateUuid)
     {
         $this->amount = $amount;
 
-        $this->aggregate_uuid = $uuid;
+        $this->aggregateUuid = $aggregateUuid;
     }
 
     public function build()

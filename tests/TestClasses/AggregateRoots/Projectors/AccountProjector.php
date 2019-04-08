@@ -15,9 +15,9 @@ final class AccountProjector implements Projector
         MoneyAdded::class => 'onMoneyAdded',
     ];
 
-    public function onMoneyAdded(MoneyAdded $event, string $uuid)
+    public function onMoneyAdded(MoneyAdded $event, string $aggregateUuid)
     {
-        $account = Account::firstOrCreate(compact('uuid'));
+        $account = Account::firstOrCreate(['uuid' => $aggregateUuid]);
 
         $account->amount += $event->amount;
 
