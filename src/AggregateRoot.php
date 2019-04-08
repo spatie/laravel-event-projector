@@ -2,8 +2,8 @@
 
 namespace Spatie\EventProjector;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\EventProjector\Models\StoredEvent;
 
 abstract class AggregateRoot
@@ -69,7 +69,6 @@ abstract class AggregateRoot
             $this->$applyingMethodName($event);
         }
     }
-
 
     private function getStoredEventModel(): Model
     {

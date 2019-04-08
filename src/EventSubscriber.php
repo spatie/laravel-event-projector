@@ -53,5 +53,4 @@ final class EventSubscriber
 
         return new $storedEventModelClass;
     }
-
 }
