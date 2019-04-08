@@ -33,11 +33,11 @@ final class Projectionist
 
     public function __construct(array $config = [])
     {
+        $this->config = $config;
+
         $this->projectors = new EventHandlerCollection();
 
         $this->reactors = new EventHandlerCollection();
-
-        $this->config = $config;
     }
 
     public function addProjector($projector): Projectionist
