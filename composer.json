@@ -1,6 +1,6 @@
 {
     "name": "spatie/laravel-event-projector",
-    "description": "Simple event sourcing in Laravel",
+    "description": "Event sourcing for artisans",
     "keywords": [
         "spatie",
         "laravel-event-sourcerer",
