@@ -4,10 +4,10 @@ namespace Spatie\EventProjector\Models;
 
 use Exception;
 use Carbon\Carbon;
-use Spatie\EventProjector\Projectionist;
-use Spatie\EventProjector\ShouldBeStored;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\EventProjector\Projectionist;
 use Illuminate\Database\Eloquent\Builder;
+use Spatie\EventProjector\ShouldBeStored;
 use Spatie\SchemalessAttributes\SchemalessAttributes;
 use Spatie\EventProjector\Exceptions\InvalidStoredEvent;
 use Spatie\EventProjector\EventSerializers\EventSerializer;

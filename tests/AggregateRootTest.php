@@ -3,15 +3,15 @@
 namespace Spatie\EventProjector\Tests;
 
 use Illuminate\Support\Facades\Mail;
-use Spatie\EventProjector\Facades\Projectionist;
 use Spatie\EventProjector\Models\StoredEvent;
+use Spatie\EventProjector\Facades\Projectionist;
+use Spatie\EventProjector\Tests\TestClasses\FakeUuid;
+use Spatie\EventProjector\Tests\TestClasses\Models\Account;
+use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\AccountAggregateRoot;
+use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\Reactors\SendMailReactor;
+use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\StorableEvents\MoneyAdded;
 use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\Mailable\MoneyAddedMailable;
 use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\Projectors\AccountProjector;
-use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\Reactors\SendMailReactor;
-use Spatie\EventProjector\Tests\TestClasses\FakeUuid;
-use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\AccountAggregateRoot;
-use Spatie\EventProjector\Tests\TestClasses\AggregateRoots\StorableEvents\MoneyAdded;
-use Spatie\EventProjector\Tests\TestClasses\Models\Account;
 
 final class AggregateRootTest extends TestCase
 {
@@ -110,6 +110,7 @@ final class AggregateRootTest extends TestCase
         Mail::assertSent(MoneyAddedMailable::class, function (MoneyAddedMailable $mailable) {
             $this->assertEquals($this->aggregateUuid, $mailable->aggregateUuid);
             $this->assertEquals(123, $mailable->amount);
+
             return true;
         });
     }
