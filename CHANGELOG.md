@@ -6,9 +6,8 @@ All notable changes to `laravel-event-projector` will be documented in this file
 
 - added support for aggregates
 - support a new `handleEvent` property for event handlers
-- renamed `StoredEvent` to `DomainEvent`
 - removed all support for projector statusses
-- the rebuild has been removed. It's been replace by the `--from` flag on event replay
+- the `rebuild` command has been removed. It's been replace by the `--from` flag on event replay
 
 ## 1.3.2 - 2018-02-27
 
