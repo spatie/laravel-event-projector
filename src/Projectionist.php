@@ -102,6 +102,14 @@ final class Projectionist
 
     public function addReactor($reactor): Projectionist
     {
+        if (is_string($reactor)) {
+            $reactor = app($reactor);
+        }
+
+        if (! $reactor instanceof EventHandler) {
+            throw InvalidEventHandler::notAnEventHandler($reactor);
+        }
+
         $this->reactors->add($reactor);
 
         return $this;
