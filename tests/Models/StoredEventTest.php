@@ -8,7 +8,7 @@ use Spatie\EventProjector\Facades\Projectionist;
 use Spatie\EventProjector\Exceptions\InvalidStoredEvent;
 use Spatie\EventProjector\Tests\TestClasses\Models\Account;
 use Spatie\EventProjector\Tests\TestClasses\Events\MoneyAddedEvent;
-use Spatie\EventProjector\Tests\TestClasses\Projectors\ProjectorWithoutHandlesEvents;
+use Spatie\EventProjector\Tests\TestClasses\Projectors\BalanceProjector;
 
 final class StoredEventTest extends TestCase
 {
@@ -19,7 +19,7 @@ final class StoredEventTest extends TestCase
     {
         parent::setUp();
 
-        Projectionist::addProjector(new ProjectorWithoutHandlesEvents());
+        Projectionist::addProjector(new BalanceProjector());
 
         $this->account = Account::create();
     }

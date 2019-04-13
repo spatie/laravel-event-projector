@@ -61,11 +61,9 @@ trait HandlesEvents
             $handlesEvents->put($this->handleEvent, get_class($this));
         }
 
-        /*
         if (! isset($this->handlesEvents) && ! isset($this->handleEvent)) {
             $handlesEvents = $this->autoDetectHandlesEvents();
         }
-        */
 
         return $handlesEvents;
     }
