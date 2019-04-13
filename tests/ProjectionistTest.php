@@ -12,7 +12,7 @@ use Spatie\EventProjector\Tests\TestClasses\Models\Account;
 use Spatie\EventProjector\Tests\TestClasses\Reactors\BrokeReactor;
 use Spatie\EventProjector\Tests\TestClasses\Events\MoneyAddedEvent;
 use Spatie\EventProjector\Tests\TestClasses\Events\MoneySubtractedEvent;
-use Spatie\EventProjector\Tests\TestClasses\Projectors\BalanceProjector;
+use Spatie\EventProjector\Tests\TestClasses\Projectors\ProjectorWithoutHandlesEvents;
 use Spatie\EventProjector\Tests\TestClasses\Projectors\MoneyAddedCountProjector;
 use Spatie\EventProjector\Tests\TestClasses\Projectors\ProjectorThatThrowsAnException;
 use Spatie\EventProjector\Tests\TestClasses\Projectors\InvalidProjectorThatDoesNotHaveTheRightEventHandlingMethod;
@@ -58,8 +58,8 @@ final class ProjectionistTest extends TestCase
     /** @test */
     public function it_will_not_register_the_same_projector_twice()
     {
-        Projectionist::addProjector(BalanceProjector::class);
-        Projectionist::addProjector(BalanceProjector::class);
+        Projectionist::addProjector(ProjectorWithoutHandlesEvents::class);
+        Projectionist::addProjector(ProjectorWithoutHandlesEvents::class);
 
         $this->assertCount(1, Projectionist::getProjectors());
     }
@@ -95,7 +95,7 @@ final class ProjectionistTest extends TestCase
         $failingProjector = new ProjectorThatThrowsAnException();
         Projectionist::addProjector($failingProjector);
 
-        $workingProjector = new BalanceProjector();
+        $workingProjector = new ProjectorWithoutHandlesEvents();
         Projectionist::addProjector($workingProjector);
 
         event(new MoneyAddedEvent($this->account, 1000));
@@ -147,7 +147,7 @@ final class ProjectionistTest extends TestCase
     public function it_can_remove_all_event_handlers()
     {
         Projectionist::addProjector(MoneyAddedCountProjector::class);
-        Projectionist::addProjector(BalanceProjector::class);
+        Projectionist::addProjector(ProjectorWithoutHandlesEvents::class);
         Projectionist::addReactor(BrokeReactor::class);
 
         $this->assertCount(2, Projectionist::getProjectors());
@@ -163,7 +163,7 @@ final class ProjectionistTest extends TestCase
     public function it_can_remove_certain_event_handlers()
     {
         Projectionist::addProjector(MoneyAddedCountProjector::class);
-        Projectionist::addProjector(BalanceProjector::class);
+        Projectionist::addProjector(ProjectorWithoutHandlesEvents::class);
         Projectionist::addReactor(BrokeReactor::class);
 
         $this->assertCount(2, Projectionist::getProjectors());
@@ -172,10 +172,10 @@ final class ProjectionistTest extends TestCase
         Projectionist::withoutEventHandlers([MoneyAddedCountProjector::class, BrokeReactor::class]);
 
         $this->assertCount(1, Projectionist::getProjectors());
-        $this->assertEquals(BalanceProjector::class, get_class(Projectionist::getProjectors()->first()));
+        $this->assertEquals(ProjectorWithoutHandlesEvents::class, get_class(Projectionist::getProjectors()->first()));
         $this->assertCount(0, Projectionist::getReactors());
 
-        Projectionist::withoutEventHandler(BalanceProjector::class);
+        Projectionist::withoutEventHandler(ProjectorWithoutHandlesEvents::class);
         $this->assertCount(0, Projectionist::getProjectors());
     }
 }
