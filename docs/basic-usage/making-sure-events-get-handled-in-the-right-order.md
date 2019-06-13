@@ -1,9 +1,10 @@
 ---
 title: Making sure events get handled in the right order
-weight: 4
 ---
 
 By default all events are handled in a synchronous manner. This means that if you fire off an event in a request, all projectors will get called in the same request.
+
+If you have a lot of concurrent requests that fire off events there's a chance that projectors will fall behind. For a more detailed look at this problem and the solution provided by the package read the section [on using event streams](/laravel-event-projector/v1/basic-usage/using-event-streams).
 
 ## Handling events in a queue
 

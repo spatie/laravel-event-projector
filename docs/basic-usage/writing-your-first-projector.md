@@ -1,9 +1,8 @@
 ---
 title: Writing your first projector
-weight: 1
 ---
 
-This section is a perfect entry point to get yourself aquinted with projectors. Most examples in these docs are also available in the Laravel app you'll find in [this repo on GitHub](https://github.com/spatie/larabank-event-projector). Clone that repo to toy around with the package.
+This section is a perfect entry point to get yourself aquinted with the package. Most examples in these docs are also available in the Laravel app you'll find in [this repo on GitHub](https://github.com/spatie/laravel-event-projector-demo-app). Clone that repo to toy around with the package.
 
 A projector is a class that gets triggered when new events come in. It typically writes data (to the database or to a file on disk). We call that written data a projection.
 
@@ -95,6 +94,8 @@ class Account extends Model
     }
 }
 ```
+
+
 
 ## Defining events
 
@@ -204,6 +205,16 @@ class AccountBalanceProjector implements Projector
 {
     use ProjectsEvents;
 
+    /*
+     * Here you can specify which event should trigger which method.
+     */
+    public $handlesEvents = [
+        AccountCreated::class => 'onAccountCreated',
+        MoneyAdded::class => 'onMoneyAdded',
+        MoneySubtracted::class => 'onMoneySubtracted',
+        AccountDeleted::class => 'onAccountDeleted',
+    ];
+
     public function onAccountCreated(AccountCreated $event)
     {
         Account::create($event->accountAttributes);
@@ -234,7 +245,41 @@ class AccountBalanceProjector implements Projector
 }
 ```
 
-Just by typehinting an event in a method will make the package call that method when the event occurs. By default the package will automatically discover and registering projectors.
+## Registering your projector
+
+The projector code up above will update the `accounts` table based on the fired events.
+
+Projectors need to be registered. The easiest way to register a projector is by calling `addProjector` on the `Projectionist` class. Typically you would put this in a service provider of your own.
+
+```php
+use Illuminate\Support\ServiceProvider;
+use App\Projectors\AccountBalanceProjector;
+use Spatie\EventProjector\Projectionist;
+
+class AppServiceProvider extends ServiceProvider
+{
+    public function boot(Projectionist $projectionist)
+    {
+        $projectionist->addProjector(AccountBalanceProjector::class);
+    }
+}
+```
+
+You can also use the `Projectionist` facade.
+
+```php
+use App\Projectors\AccountBalanceProjector;
+use Spatie\EventProjector\Facades\Projectionist;
+
+Projectionist::addProjector(AccountBalanceProjector::class);
+```
+
+Additionally, your projectors can be registered in `config/event-projector.php`
+```php
+'projectors' => [
+        \App\Projectors\AccountBalanceProjector::class,
+    ],
+```
 
 ## Let's fire off some events
 
@@ -305,8 +350,7 @@ class TransactionCount extends Model
 }
 ```
 
-Here's the projector that is going to listen to the `MoneyAdded` and `MoneySubtracted` events. Typehinting `MoneyAdded` and `MoneySubtracted`  will make our package call `onMoneyAdded` and ``MoneySubtracted`` when these events occur.
-
+Here's the projector that is going to listen to the `MoneyAdded` and `MoneySubtracted` events:
 
 ```php
 namespace App\Projectors;
@@ -321,6 +365,11 @@ use Spatie\EventProjector\Projectors\ProjectsEvents;
 class TransactionCountProjector implements Projector
 {
     use ProjectsEvents;
+
+    public $handlesEvents = [
+        MoneyAdded::class => 'onMoneyAdded',
+        MoneySubtracted::class => 'onMoneySubtracted',
+    ];
 
     public function onMoneyAdded(MoneyAdded $event)
     {

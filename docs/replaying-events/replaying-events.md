@@ -2,17 +2,19 @@
 title: Replaying events
 ---
 
-All [events](/laravel-event-projector/v2/handling-events/preparing-events) that implement `Spatie\EventProjector\ShouldBeStored` will be [serialized](https://docs.spatie.be/laravel-event-projector/v2/advanced-usage/using-your-own-event-serializer) and stored in the `stored_events` table. After your app has been doing its work for a while the `stored_events` table will probably contain some events.
+All [events](/laravel-event-projector/v1/handling-events/preparing-events) that implement `Spatie\EventProjector\ShouldBeStored` will be [serialized](https://docs.spatie.be/laravel-event-projector/v1/advanced-usage/using-your-own-event-serializer) and stored in the `stored_events` table. After your app has been doing its work for a while the `stored_events` table will probably contain some events.
 
- When creating a new [projector](/laravel-event-projector/v2/handling-events/using-projectors) or [reactor](/laravel-event-projector/v2/handling-events/using-reactors) you'll want to feed all stored events to that new projector or reactor. We call this process replaying events.
+ When creating a new [projector](/laravel-event-projector/v1/handling-events/using-projectors) or [reactor](/laravel-event-projector/v1/handling-events/using-reactors) you'll want to feed all stored events to that new projector or reactor. We call this process replaying events.
 
- Events can be replayed to [all projectors that were added to the projectionist](/laravel-event-projector/v2/handling-events/using-reactors) with this artisan command:
+ Events can be replayed to [all projectors that were added to the projectionist](/laravel-event-projector/v1/handling-events/using-reactors) with this artisan command:
 
  ```bash
  php artisan event-projector:replay
  ```
 
- You can also projectors by using the `--projector` option. All stored events will be passed only to that projector.
+The package [keeps track of which events were already passed to a projector](https://docs.spatie.be/laravel-event-projector/v1/replaying-events/tracking-handled-events). It will never pass an event that a projector already handled. So it's generally safe to replay events. Only projectors that didn't handle all events yet will get called. Projectors that already handled all past events will not be called.
+
+ You can also handpick a projectors by using the `--projector` option. All stored events will be passed only to that projector.
 
  ```bash
   php artisan event-projector:replay --projector=App\\Projectors\\AccountBalanceProjector
@@ -23,10 +25,6 @@ All [events](/laravel-event-projector/v2/handling-events/preparing-events) that 
   ```bash
    php artisan event-projector:replay --projector=App\\Projectors\\AccountBalanceProjector --projector=App\\Projectors\\AnotherProjector
   ```
-  
-If your projector has a `resetState` method it will get called before replaying events. You can use that method to reset the state of your projector. 
-
-If you want to replay events starting from a certain event you can use the `--from` option when executing `event-projector:replay`. If you use this option the `resetState` on projectors will not get called. This package does not track which events have already been processed by which projectors. Be sure not to replay events to projectors that already have handled them.
 
 ## Detecting event replays
 

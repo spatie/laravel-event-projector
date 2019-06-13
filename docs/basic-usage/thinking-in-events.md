@@ -1,11 +1,8 @@
 ---
 title: Thinking in events
-weight: 5
 ---
 
-In this example we're going to try to send a mail whenever an account is broke (balance below zero). You can do this with projectors and reactors alone, but aggregates might be a better fit for this. Aggregates make it easy to make decisions based on past events. Check out the section on [how to use aggreates](https://docs.spatie.be/laravel-event-projector/v2/introduction) to learn more about them, or keep reading on this page if you don't want to use aggragetes.
-
-Let's build upon the examples shown in the [writing your first projector](/laravel-event-projector/v2/using-projectors/writing-your-first-projector) and [handling side effects with reactors](https://docs.spatie.be/laravel-event-projector/v2/using-reactors/writing-your-first-reactor)' sections. 
+Let's build upon the examples shown in the [writing your first projector](/laravel-event-projector/v1/basic-usage/writing-your-first-projector) and [handling side effects with reactors](https://docs.spatie.be/laravel-event-projector/v1/basic-usage/handling-side-effects-using-reactors)' sections. 
 
 Imagine you are tasked with sending a mail to an account holder whenever he or she is broke. You might think, that's easy, let's just check in a new reactor if the account balance is less than zero.
 
@@ -36,6 +33,10 @@ class BrokeReactor implements EventHandler
 {
     use HandlesEvents;
 
+    public $handlesEvents = [
+        MoneySubtracted::class => 'onMoneySubtracted',
+    ];
+
     public function onMoneySubtracted(MoneySubtracted $event)
     {
         $account = Account::uuid($event->accountUuid);
@@ -63,6 +64,10 @@ If you are tempted to modify state in a reactor, just fire off a new event and l
 class BrokeReactor implements EventHandler
 {
     use HandlesEvents;
+
+    public $handlesEvents = [
+        MoneySubtracted::class => 'onMoneySubtracted',
+    ];
 
     public function onMoneySubtracted(MoneySubtracted $event)
     {
@@ -99,6 +104,14 @@ Let's leverage that new event in the `AccountBalanceProjector`.
 
 class AccountBalanceProjector implements Projector
 {
+    
+    protected $handlesEvents = [
+        // ..
+        BrokeMailSent::class => 'onBrokeMailSent',
+    ];
+    
+    // ..
+
     public function onBrokeMailSent(BrokeMailSent $event)
     {
         $account = Account::uuid($event->accountUuid);
@@ -128,4 +141,4 @@ class AccountBalanceProjector implements Projector
 }
 ```
 
-The `BrokeReactor` will only send out a mail when an account goes broke. No mails will be sent if the account was already broke. When the account goes above zero and goes broke again a new mail will be sent.  When replaying all events, no mail will get sent, but all account state will be correct.
+With this in place only a projector will save state. The `BrokeReactor` will only send out a mail when an account goes broke. No mails will be sent if the account was already broke. When the account goes above zero and goes broke again a new mail will be sent.  When replaying all events, no mail will get sent, but all account state will be correct.

@@ -1,6 +1,5 @@
 ---
-title: Creating and configuring reactors
-weight: 2
+title: Using reactors
 ---
 
 A reactor is a class, that much like a projector, listens for incoming events. Unlike projectors however, reactors will not get called when events are replayed. Reactors will only get called when the original event fires.
@@ -15,11 +14,9 @@ php artisan make:reactor BigAmountAddedReactor
 
 ## Registering reactors
 
-By default, the package will automatically find an register all reactors found in your application.
+Reactors can be registered in the `reactors` key of the `event-projectors` config file.
 
-Alternatively, you can also manually register them in the `reactors` key of the `event-projectors` config file.
-
-They can also be added to the `Projectionist`. This can be done anywhere, but typically you would do this in a ServiceProvider of your own.
+Alternatively, they can be added to the `Projectionist`. This can be done anywhere, but typically you would do this in a ServiceProvider of your own.
 
 ```php
 namespace App\Providers;
@@ -51,35 +48,23 @@ This is the contents of a class created by the artisan command mentioned in the 
 ```php
 namespace App\Reactors;
 
-class MyReactor
+class BigAmountAddedReactor
 {
+    /*
+     * Here you can specify which event should trigger which method.
+     */
+    protected $handlesEvents = [
+        // EventHappened::class => 'onEventHappened',
+    ];
+
+    /*
     public function onEventHappened(EventHappended $event)
     {
 
     }
+    */
 }
 ```
-
-Just by adding a typehint of the event you want to handle makes our package call that method when the typehinted event occurs. All methods specified in your projector can also make use of method injection, so you can resolve any dependencies you need in those methods as well.
-
-## Getting the uuid of an event
-
-In most cases you want to have access to the event that was fired. When [using aggregates]() your events probably won't contain the uuid associated with that event. To get to the uuid of an event simply add a parameter called `$aggregateUuid` that typehinted as a string. 
-
-```php
-// ...
-
-public function onMoneyAdded(MoneyAdded $event, string $aggregateUuid)
-{
-    $account = Account::findByUuid($aggregateUuid);
-    
-    Mail::to($account->user)->send(new MoreMoneyAddedMailable());
-}
-```
-
-The order of the parameters giving to an event handling method like `onMoneyAdded`. We'll simply pass the uuid to any arguments named `$uuid`.
-
-## Manually register event handling methods
 
 The `$handlesEvents` property is an array which has event class names as keys and method names as values. Whenever an event is fired that matches one of the keys in `$handlesEvents` the corresponding method will be fired. You can name your methods however you like.
 
@@ -136,22 +121,6 @@ protected $handlesEvents = [
      */ 
     MoneyAdded::class,
 ];
-```
-
-## Handling a single event
-
-You can `$handleEvent` to the class name of an event. When such an event comes in we'll call the `__invoke` method. 
-
-```php
-// in a reactor
-
-// ...
-
-protected $handleEvent =  MoneyAdded::class,
-
-public function __invoke(MoneyAdded $event)
-{
-}
 ```
 
 ## Using a class as an event handler

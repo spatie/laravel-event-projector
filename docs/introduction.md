@@ -3,19 +3,15 @@ title: Introduction
 weight: 1
 ---
 
-This package aims to be the entry point to get started with event sourcing in Laravel. It can help you setting up aggregates, projectors and reactors. 
+Event sourcing is to data what Git is to code. Most applications only have their current state stored in a database. A lot of useful information gets lost: you don't know _how_ the application got to this state.
 
-If you've never worked with event sourcing, or are uncertain about what projectors, reactors and aggregates are, head over to [the getting familiar with event sourcing section](https://docs.spatie.be/laravel-event-projector/v2/getting-familiar-with-event-sourcing/introduction).
+Event sourcing tries to solve this problem by storing all events that happen in your app. The state of your application is built by listening to those events.
 
-Are you visual learner? Then start by watching this video. It explains event sourcing in general and how you can use projectors, reactors and aggregates.
+Here's a traditional example to make it more clear. Imagine you're a bank. Your clients have accounts. Storing the balance of the accounts wouldn't be enough, all the transactions should be remembered too. With event sourcing, the balance isn't a standalone database field, but a value calculated from the stored transactions. This is only one of the many benefits event sourcing brings to the table.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/9tbxl_I1EGE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+This package aims to be the simple and very pragmatic way to get started with event sourcing in Laravel.
 
-Event sourcing might be a good choice for your project if:
-
-- your app needs to make decisions based on the past
-- your app has auditing requirements: the reason why your app is in a certain state is equally as important as the state itself
-- you foresee that there will be a reporting need in the future, but you don't know yet which data you need to collect for those reports
+Are you a visual learner? Here's a video that explains the high level concepts op the package: [introduction to Laravel Event Projector video](https://www.youtube.com/watch?v=28jmTeN3VYc).
 
 ## We have badges!
 
