@@ -1,5 +1,6 @@
 ---
 title: Using projectors
+weight: 2
 ---
 
 A projector is a class that listens for events that were stored. When it hears an event that it is interested in, it can perform some work.

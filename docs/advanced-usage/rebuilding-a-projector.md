@@ -1,5 +1,6 @@
 ---
 title: Rebuilding a projector
+weight: 1
 ---
 
 When replaying events, a projector will only receive events it has not handled yet. If you want to build up the state of a projector again from scratch, you can rebuild it.

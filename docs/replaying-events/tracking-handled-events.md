@@ -1,5 +1,6 @@
 ---
 title: Tracking handled events
+weight: 2
 ---
 
 The package keeps track of which events were already passed to which projectors. When replaying events it will never pass an event to a projector that already handled it.

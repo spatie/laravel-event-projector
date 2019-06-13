@@ -1,5 +1,6 @@
 ---
 title: Writing your first projector
+weight: 1
 ---
 
 This section is a perfect entry point to get yourself aquinted with the package. Most examples in these docs are also available in the Laravel app you'll find in [this repo on GitHub](https://github.com/spatie/laravel-event-projector-demo-app). Clone that repo to toy around with the package.

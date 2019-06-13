@@ -1,5 +1,6 @@
 ---
 title: Using event streams
+weight: 5
 ---
 
 If your application receives a lot of concurrent requests, it will result in a lot of events being fired. In such a scenario there's a high chance that projectors won't process events in the right order.

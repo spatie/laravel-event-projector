@@ -1,5 +1,6 @@
 ---
 title: Making sure events get handled in the right order
+weight: 4
 ---
 
 By default all events are handled in a synchronous manner. This means that if you fire off an event in a request, all projectors will get called in the same request.

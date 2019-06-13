@@ -1,5 +1,6 @@
 ---
 title: Preparing events
+weight: 1
 ---
 
 The package will listen for events that implement the `\Spatie\EventProjector\ShouldBeStored` interface. This is an empty interface that simply signals to the package that the event should be stored.

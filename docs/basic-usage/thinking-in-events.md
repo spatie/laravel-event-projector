@@ -1,5 +1,6 @@
 ---
 title: Thinking in events
+weight: 3
 ---
 
 Let's build upon the examples shown in the [writing your first projector](/laravel-event-projector/v1/basic-usage/writing-your-first-projector) and [handling side effects with reactors](https://docs.spatie.be/laravel-event-projector/v1/basic-usage/handling-side-effects-using-reactors)' sections. 

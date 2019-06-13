@@ -1,5 +1,6 @@
 ---
 title: Using reactors
+weight: 3
 ---
 
 A reactor is a class, that much like a projector, listens for incoming events. Unlike projectors however, reactors will not get called when events are replayed. Reactors will only get called when the original event fires.

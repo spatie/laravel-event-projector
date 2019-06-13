@@ -1,5 +1,6 @@
 ---
 title: Handling side effects with reactors
+weight: 2
 ---
 
 ## What is a reactor
