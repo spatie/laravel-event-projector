@@ -35,7 +35,7 @@ abstract class AggregateRoot
     {
         call_user_func(
             [$this->getStoredEventModel(), 'storeMany'],
-            $this->getAndClearRecoredEvents(),
+            $this->getAndClearRecordedEvents(),
             $this->aggregateUuid
         );
 
@@ -47,7 +47,7 @@ abstract class AggregateRoot
         return $this->storedEventModel ?? config('event-projector.stored_event_model');
     }
 
-    private function getAndClearRecoredEvents(): array
+    private function getAndClearRecordedEvents(): array
     {
         $recordedEvents = $this->recordedEvents;
 
