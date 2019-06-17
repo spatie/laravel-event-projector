@@ -13,13 +13,13 @@ abstract class AggregateRoot
     /** @var array */
     private $recordedEvents = [];
 
-    public static function retrieve(string $uuid): AggregateRoot
+    public static function retrieve(string $uuid, int $storedEventId = null): AggregateRoot
     {
         $aggregateRoot = (new static());
 
         $aggregateRoot->aggregateUuid = $uuid;
 
-        return $aggregateRoot->reconstituteFromEvents();
+        return $aggregateRoot->reconstituteFromEvents($storedEventId);
     }
 
     public function recordThat(ShouldBeStored $domainEvent): AggregateRoot
@@ -56,11 +56,13 @@ abstract class AggregateRoot
         return $recordedEvents;
     }
 
-    private function reconstituteFromEvents(): AggregateRoot
+    private function reconstituteFromEvents(int $storedEventId = null): AggregateRoot
     {
-        $this->getStoredEventModel()::uuid($this->aggregateUuid)->each(function (StoredEvent $storedEvent) {
-            $this->apply($storedEvent->event);
-        });
+        $this->getStoredEventModel()::uuid($this->aggregateUuid)
+              ->endingTo($storedEventId)
+              ->each(function (StoredEvent $storedEvent) {
+                  $this->apply($storedEvent->event);
+              });
 
         return $this;
     }

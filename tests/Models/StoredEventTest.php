@@ -33,6 +33,14 @@ final class StoredEventTest extends TestCase
     }
 
     /** @test */
+    public function it_has_a_scope_to_get_all_events_ending_to_given_id()
+    {
+        $this->fireEvents(4);
+
+        $this->assertEquals([1, 2], StoredEvent::endingTo(2)->pluck('id')->toArray());
+    }
+
+    /** @test */
     public function it_will_throw_a_human_readable_exception_when_the_event_couldnt_be_deserialized()
     {
         $this->fireEvents();

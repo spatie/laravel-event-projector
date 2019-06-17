@@ -160,4 +160,22 @@ final class AggregateRootTest extends TestCase
             return true;
         });
     }
+
+    /** @test */
+    public function when_retrieving_an_aggregate_root_with_a_specific_event_will_be_replayed_just_to_it()
+    {
+        /** @var \Spatie\EventProjector\Tests\TestClasses\AggregateRoots\AccountAggregateRoot $aggregateRoot */
+        $aggregateRoot = AccountAggregateRoot::retrieve($this->aggregateUuid);
+
+        $aggregateRoot
+            ->addMoney(100)
+            ->addMoney(200)
+            ->addMoney(300);
+
+        $aggregateRoot->persist();
+
+        $aggregateRoot = AccountAggregateRoot::retrieve($this->aggregateUuid, 2);
+
+        $this->assertEquals(300, $aggregateRoot->balance);
+    }
 }

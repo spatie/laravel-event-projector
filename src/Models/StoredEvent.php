@@ -56,6 +56,15 @@ class StoredEvent extends Model
         $query->where('id', '>=', $storedEventId);
     }
 
+    public function scopeEndingTo(Builder $query, ?int $storedEventId)
+    {
+        if ($storedEventId === null) {
+            return $query;
+        }
+
+        return $query->where('id', '<=', $storedEventId);
+    }
+
     public function scopeUuid(Builder $query, string $uuid): void
     {
         $query->where('aggregate_uuid', $uuid);
