@@ -23,10 +23,14 @@ class StoredEvent extends Model
         'meta_data' => 'array',
     ];
 
-    public static function createForEvent(ShouldBeStored $event, string $uuid = null): StoredEvent
+    /** @var int */
+    public const DEFAULT_VERSION = 1;
+
+    public static function createForEvent(ShouldBeStored $event, int $version, string $uuid = null): StoredEvent
     {
         $storedEvent = new static();
         $storedEvent->aggregate_uuid = $uuid;
+        $storedEvent->version = $version;
         $storedEvent->event_class = get_class($event);
         $storedEvent->attributes['event_properties'] = app(EventSerializer::class)->serialize(clone $event);
         $storedEvent->meta_data = [];
@@ -71,11 +75,12 @@ class StoredEvent extends Model
         return SchemalessAttributes::scopeWithSchemalessAttributes('meta_data');
     }
 
-    public static function storeMany(array $events, string $uuid = null): void
+    public static function storeMany(array $events, int $version, string $uuid = null): void
     {
         collect($events)
-            ->map(function (ShouldBeStored $domainEvent) use ($uuid) {
-                $storedEvent = static::createForEvent($domainEvent, $uuid);
+            ->map(function (ShouldBeStored $domainEvent) use (&$version, $uuid) {
+                $version += 1;
+                $storedEvent = static::createForEvent($domainEvent, $version, $uuid);
 
                 return [$domainEvent, $storedEvent];
             })
@@ -96,8 +101,8 @@ class StoredEvent extends Model
             });
     }
 
-    public static function store(ShouldBeStored $event, string $uuid = null): void
+    public static function store(ShouldBeStored $event, int $version, string $uuid = null): void
     {
-        static::storeMany([$event], $uuid);
+        static::storeMany([$event], $version, $uuid);
     }
 }

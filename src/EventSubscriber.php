@@ -2,6 +2,8 @@
 
 namespace Spatie\EventProjector;
 
+use Spatie\EventProjector\Models\StoredEvent;
+
 final class EventSubscriber
 {
     /** @var string */
@@ -28,7 +30,7 @@ final class EventSubscriber
 
     public function storeEvent(ShouldBeStored $event): void
     {
-        $this->storedEventModel::store($event);
+        $this->storedEventModel::store($event, $this->storedEventModel->version ?? StoredEvent::DEFAULT_VERSION);
     }
 
     private function shouldBeStored($event): bool
