@@ -85,7 +85,7 @@ class ReplayCommand extends Command
             $bar->advance();
         };
 
-        $this->projectionist->replay($projectors, $startingFrom, $onEventReplayed);
+        $this->projectionist->replay($this->getStoredEventClass(), $projectors, $startingFrom, $onEventReplayed);
 
         $bar->finish();
 
