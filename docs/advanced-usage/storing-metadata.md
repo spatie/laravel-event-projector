@@ -55,8 +55,7 @@ class MetaDataProjector implements Projector
 
     public function onMoneyAdded(StoredEvent $storedEvent)
     {
-    
-        if (Projectionist::isReplaying()) {
+        if (! Projectionist::isReplaying()) {
            $storedEvent->meta_data['user_id'] = auth()->user()->id;
 
            $storedEvent->save();
