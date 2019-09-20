@@ -1,6 +1,6 @@
 **THIS PACKAGE HAS BEEN SUPERCEDED BY SPATIE/LARAVEL-EVENT-SOURCING**
 
-Because the package now does more than providing projectors, we decided to change the name to [`laravel-event-sourcing`](https://github.com/spatie/laravel-event-sourcing).
+Because the package now does more than just providing projectors, we decided to change the name of the package to [`spatie/laravel-event-sourcing`](https://github.com/spatie/laravel-event-sourcing).
 
 Upgrading from v3 of `laravel-event-projector` to `v1` of laravel-event-sourcing is easy. Take a look at [the upgrade guide for laravel-event-sourcing](https://github.com/spatie/laravel-event-sourcing/blob/master/UPGRADING.md).
 
