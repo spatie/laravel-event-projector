@@ -68,5 +68,8 @@
                 "Projectionist": "Spatie\\EventProjector\\Facades\\EventProjector"
             }
         }
+    },
+    "suggest": {
+        "spatie/laravel-event-sourcing": "spatie/laravel-event-projector has been renamed to spatie/laravel-event-sourcing. Please upgrade"
     }
 }
