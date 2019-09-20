@@ -3,6 +3,15 @@ title: Introduction
 weight: 1
 ---
 
+
+**THIS PACKAGE HAS BEEN SUPERCEDED BY SPATIE/LARAVEL-EVENT-SOURCING**
+
+Because the package now does more than providing projectors, we decided to change the name to [`laravel-event-sourcing`](https://github.com/spatie/laravel-event-sourcing).
+
+Upgrading from v3 of `laravel-event-projector` to `v1` of laravel-event-sourcing is easy. Take a look at [the upgrade guide for laravel-event-sourcing](https://github.com/spatie/laravel-event-sourcing/blob/master/UPGRADING.md).
+
+--- 
+
 This package aims to be the entry point to get started with event sourcing in Laravel. It can help you setting up aggregates, projectors and reactors.
 
 If you've never worked with event sourcing, or are uncertain about what projectors, reactors and aggregates are, head over to [the getting familiar with event sourcing section](/laravel-event-projector/v3/getting-familiar-with-event-sourcing/introduction).
