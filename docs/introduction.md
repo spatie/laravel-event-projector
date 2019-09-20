@@ -3,7 +3,7 @@ title: Introduction
 weight: 1
 ---
 
-**THIS PACKAGE HAS BEEN SUPERCEDED BY SPATIE/LARAVEL-EVENT-SOURCING**
+**THIS PACKAGE HAS BEEN SUPERCEDED BY [SPATIE/LARAVEL-EVENT-SOURCING](https://github.com/spatie/laravel-event-sourcing)**
 
 Because the package now does more than providing projectors, we decided to change the name to [`laravel-event-sourcing`](https://github.com/spatie/laravel-event-sourcing).
 
