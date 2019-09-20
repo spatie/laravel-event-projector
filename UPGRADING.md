@@ -5,10 +5,7 @@ Because there are many breaking changes we cannot give you a waterproof list of 
 
 ## From laravel-event-projector to laravel-event-sourcing
 
-The laravel-event-projector package has been renamed to laravel-event-sourcing. Upgrading from v3 of laravel-event-projector to laravel-event-sourcing is easy. Take a look in [the upgrade guide for laravel-event-sourcing](https://github.com/spatie/laravel-event-sourcing/blob/master/UPGRADING.md).
-
-
-
+The laravel-event-projector package has been renamed to laravel-event-sourcing. Upgrading from v3 of laravel-event-projector to laravel-event-sourcing is easy. Take a look at [the upgrade guide for laravel-event-sourcing](https://github.com/spatie/laravel-event-sourcing/blob/master/UPGRADING.md).
 
 ## From v2 to v3
 
